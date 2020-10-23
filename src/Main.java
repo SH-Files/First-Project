@@ -16,7 +16,7 @@ public class Main
             System.out.println("1 --> Create a new student or a new course.");
             System.out.println("2 --> Get information about a student or a course.");
             System.out.println("3 --> Update information of a student or a course.");
-            System.out.println("4 --> Delete a Student or course.");
+            System.out.println("4 --> Delete a student or course.");
             System.out.println("5 --> Exit the game.");
 
             String choice = scn.nextLine().trim();
