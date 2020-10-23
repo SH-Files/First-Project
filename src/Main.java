@@ -3,8 +3,8 @@ import java.util.TreeMap;
 
 public class Main
 {
-    static Scanner scn = new Scanner(System.in);                    // Scanner to get user input
-    static TreeMap<Integer, Course> courses = new TreeMap<Integer, Course>();      // Dictionary to save all existing courses
+    static Scanner scn = new Scanner(System.in);                                    // Scanner to get user input
+    static TreeMap<Integer, Course> courses = new TreeMap<Integer, Course>();       // Dictionary to save all existing courses
     static TreeMap<Integer, Student> students = new TreeMap<Integer, Student>();    // Dictionary to save all existing students
 
     public static void main(String[] args)
