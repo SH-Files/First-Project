@@ -2,7 +2,6 @@ import java.util.TreeMap;
 
 public class Student
 {
-    private int id;
     private String firstname;
     private String lastname;
     private TreeMap<Integer, Course> courses = new TreeMap<Integer, Course>();

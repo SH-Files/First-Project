@@ -11,7 +11,6 @@ public class Main
     {
         while (true)
         {
-
             System.out.println("Which one of the following actions do you want to choose?");
 
             System.out.println("1 --> Create a new student or a new course.");
@@ -159,7 +158,7 @@ public class Main
     public static void read()
     {
         System.out.println("1 --> Get information about a student.");
-        System.out.println("2 --> Get information about a course.");
+        System.out.println("2 --> Get information about the courses.");
 
         String choice = scn.nextLine().trim();
 
