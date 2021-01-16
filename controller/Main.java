@@ -112,7 +112,7 @@ public class Main
             }
             else
             {
-                System.out.println("Student could not be added. The first name must be at least three characters long.\n");
+                System.out.println("Student could not be added. The last name must be at least three characters long.\n");
             }
         }
         else
