@@ -243,6 +243,9 @@ public class Main
                 case UPDATEBOOK -> {
                     updateBook();
                 }
+                default -> {
+                    System.out.println("Chosen action doesn't exist.\n");
+                }
             }
         }
         else
