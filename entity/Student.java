@@ -1,20 +1,18 @@
 package entity;
 
-import service.CustomSet;
+import java.util.HashMap;
 
 public class Student
 {
-    private static int counter = 0;
-
-    private final int id;
+    private int id;
     private String firstName;
     private String lastName;
 
-    private final CustomSet<Book> books = new CustomSet<>();
+    private final HashMap<Integer, Book> books = new HashMap<>();
 
-    public Student(String firstName, String lastName)
+    public Student(int id, String firstName, String lastName)
     {
-        this.id = ++counter;
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -44,35 +42,38 @@ public class Student
         return this.lastName;
     }
 
-    public CustomSet<Book> getBooks()
+    public HashMap<Integer, Book> getBooks()
     {
         return this.books;
     }
 
-    public void addBook(Book book)
+    public void addBook(int key, Book book)
     {
-        this.books.add(book);
+        this.books.put(key, book);
     }
 
-    public void removeBook(Book book)
+    public void removeBook(int key)
     {
-        this.books.remove(book);
+        this.books.remove(key);
     }
 
-    public Book getBook(int hashCode)
+    public Book getBook(int key)
     {
-        return this.books.get(hashCode);
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        return o instanceof Student && this.id == ((Student) o).id;
+        return this.books.get(key);
     }
 
     @Override
-    public int hashCode()
-    {
-        return this.id;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Student student = (Student) o;
+
+        return id == student.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

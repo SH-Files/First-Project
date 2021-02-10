@@ -2,14 +2,12 @@ package entity;
 
 public class Book
 {
-    private static int counter = 0;
-
     private final int id;
     private String title;
 
-    public Book(String title)
+    public Book(int id, String title)
     {
-        this.id = ++counter;
+        this.id = id;
         this.title = title;
     }
 
@@ -29,14 +27,17 @@ public class Book
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        return o instanceof Book && this.id == ((Book) o).id;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+
+        return id == book.id;
     }
 
     @Override
-    public int hashCode()
-    {
-        return this.id;
+    public int hashCode() {
+        return id;
     }
 }

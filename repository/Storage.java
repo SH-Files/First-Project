@@ -2,50 +2,51 @@ package repository;
 
 import entity.Book;
 import entity.Student;
-import service.CustomSet;
+
+import java.util.HashMap;
 
 public class Storage
 {
-    private final CustomSet<Book> books = new CustomSet<>();
-    private final CustomSet<Student> students = new CustomSet<>();
+    private final HashMap<Integer, Book> books = new HashMap<>();
+    private final HashMap<Integer, Student> students = new HashMap<>();
 
-    public CustomSet<Book> getBooks()
+    public HashMap<Integer, Book> getBooks()
     {
         return this.books;
     }
 
-    public CustomSet<Student> getStudents()
+    public HashMap<Integer, Student> getStudents()
     {
         return this.students;
     }
 
-    public Book getBook(int hashCode)
+    public Book getBook(int key)
     {
-        return this.books.get(hashCode);
+        return this.books.get(key);
     }
 
-    public Student getStudent(int hashCode)
+    public Student getStudent(int key)
     {
-        return this.students.get(hashCode);
+        return this.students.get(key);
     }
 
-    public void addBook(Book book)
+    public void addBook(int key, Book book)
     {
-        this.books.add(book);
+        this.books.put(key, book);
     }
 
-    public void addStudent(Student student)
+    public void addStudent(int key, Student student)
     {
-        this.students.add(student);
+        this.students.put(key, student);
     }
 
-    public void removeBook(Book book)
+    public void removeBook(int key)
     {
-        this.books.remove(book);
+        this.books.remove(key);
     }
 
-    public void removeStudent(Student student)
+    public void removeStudent(int key)
     {
-        this.students.remove(student);
+        this.students.remove(key);
     }
 }

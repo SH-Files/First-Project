@@ -4,6 +4,8 @@ import entity.Book;
 import entity.Student;
 import repository.Storage;
 
+import java.util.HashMap;
+
 public class Service
 {
     private final Storage storage;
@@ -13,73 +15,71 @@ public class Service
         this.storage = storage;
     }
 
-    public Book getBook(int hashCode)
+    public Book getBook(int key)
     {
-        return this.storage.getBook(hashCode);
+        return this.storage.getBook(key);
     }
 
-    public Student getStudent(int hashCode)
+    public Student getStudent(int key)
     {
-        return this.storage.getStudent(hashCode);
+        return this.storage.getStudent(key);
     }
 
-    public CustomSet<Book> getBooks()
+    public HashMap<Integer, Book> getBooks()
     {
         return this.storage.getBooks();
     }
 
-    public CustomSet<Student> getStudents()
+    public HashMap<Integer, Student> getStudents()
     {
         return this.storage.getStudents();
     }
 
     public void createBook(String title)
     {
-        this.storage.addBook(new Book(title));
+        this.storage.addBook(storage.getBooks().size() + 1, new Book(storage.getBooks().size() + 1, title));
     }
 
     public void createStudent(String firstName, String lastName)
     {
-        this.storage.addStudent(new Student(firstName, lastName));
+        this.storage.addStudent(storage.getStudents().size() + 1, new Student(storage.getStudents().size() + 1, firstName, lastName));
     }
 
-    public void updateStudentFirstName(int hashCode, String firstname)
+    public void updateStudentFirstName(int key, String firstname)
     {
-        this.storage.getStudent(hashCode).setFirstName(firstname);
+        this.storage.getStudent(key).setFirstName(firstname);
     }
 
-    public void updateStudentLastName(int hashCode, String lastName)
+    public void updateStudentLastName(int key, String lastName)
     {
-        this.storage.getStudent(hashCode).setLastName(lastName);
+        this.storage.getStudent(key).setLastName(lastName);
     }
 
-    public void updateStudentAddBook(int hashCodeStudent, int hashCodeBook)
+    public void updateStudentAddBook(int keyStudent, int keyBook)
     {
-        this.storage.getStudent(hashCodeStudent).addBook(this.storage.getBook(hashCodeBook));
-        this.storage.removeBook(this.storage.getBook(hashCodeBook));
+        this.storage.getStudent(keyStudent).addBook(this.storage.getStudent(keyStudent).getBooks().size() + 1, this.storage.getBook(keyBook));
+        this.storage.removeBook(keyBook);
     }
 
-    public void updateStudentRemoveBook(int hashCodeStudent, int hashCodeBook)
+    public void updateStudentRemoveBook(int keyStudent, int keyBook)
     {
-        this.storage.addBook(this.storage.getStudent(hashCodeStudent).getBook(hashCodeBook));
-        this.storage.getStudent(hashCodeStudent).removeBook(this.storage.getStudent(hashCodeStudent).getBook(hashCodeBook));
+        this.storage.addBook(this.storage.getBooks().size() + 1, this.storage.getStudent(keyStudent).getBook(keyBook));
+        this.storage.getStudent(keyStudent).removeBook(keyBook);
     }
 
-    public void updateBookTitle(int hashCode, String title)
+    public void updateBookTitle(int key, String title)
     {
-        this.storage.getBook(hashCode).setTitle(title);
+        this.storage.getBook(key).setTitle(title);
     }
 
-    public void removeBook(int hashCode)
+    public void removeBook(int key)
     {
-        this.storage.removeBook(this.storage.getBook(hashCode));
+        this.storage.removeBook(key);
     }
 
-    public void removeStudent(int hashCode)
+    public void removeStudent(int key)
     {
-        this.storage.getStudent(hashCode).getBooks().forEach(e -> {
-            this.storage.addBook(e);
-        });
-        this.storage.removeStudent(this.storage.getStudent(hashCode));
+        this.storage.getStudent(key).getBooks().forEach((k, v) -> this.storage.addBook(this.storage.getBooks().size() + 1, v));
+        this.storage.removeStudent(key);
     }
 }

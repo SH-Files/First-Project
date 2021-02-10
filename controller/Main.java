@@ -49,24 +49,23 @@ public class Main
 
             switch (choice)
             {
-                case CREATE -> {
+                case CREATE:
                     create();
-                }
-                case UPDATE -> {
+                    break;
+                case UPDATE:
                     update();
-                }
-                case READ -> {
+                    break;
+                case READ:
                     read();
-                }
-                case REMOVE -> {
+                    break;
+                case REMOVE:
                     remove();
-                }
-                case EXIT -> {
+                    break;
+                case EXIT:
                     break start;
-                }
-                default -> {
+                default:
                     System.out.println("Chosen action doesn't exist.\n");
-                }
+                    break;
             }
         }
         System.out.println("Goodbye and until next time :)");
@@ -81,15 +80,15 @@ public class Main
 
         switch (choice)
         {
-            case CREATESTUDENT -> {
+            case CREATESTUDENT:
                 createStudent();
-            }
-            case CREATEBOOK -> {
+                break;
+            case CREATEBOOK:
                 createBook();
-            }
-            default -> {
+                break;
+            default:
                 System.out.println("Chosen action doesn't exist.\n");
-            }
+                break;
         }
     }
 
@@ -99,25 +98,25 @@ public class Main
 
         String firstName = scn.nextLine().trim();
 
-        if (firstName.length() > 2)
+        if (!firstName.isEmpty())
         {
             System.out.println("What's the student's last name?");
 
             String lastName = scn.nextLine().trim();
 
-            if (lastName.length() > 2)
+            if (!lastName.isEmpty())
             {
                 service.createStudent(firstName, lastName);
                 System.out.println("Student was successfully added.\n");
             }
             else
             {
-                System.out.println("Student could not be added. The last name must be at least three characters long.\n");
+                System.out.println("Student could not be added. The last name can't be empty.\n");
             }
         }
         else
         {
-            System.out.println("Student could not be added. The first name must be at least three characters long.\n");
+            System.out.println("Student could not be added. The first name can't be empty.\n");
         }
     }
 
@@ -127,7 +126,7 @@ public class Main
 
         String title = scn.nextLine().trim();
 
-        if (title.length() > 0)
+        if (!title.isEmpty())
         {
             service.createBook(title);
             System.out.println("Book was successfully added.\n");
@@ -149,15 +148,15 @@ public class Main
 
             switch (choice)
             {
-                case READSTUDENT -> {
+                case READSTUDENT:
                     readStudent();
-                }
-                case READBOOKS -> {
+                    break;
+                case READBOOKS:
                     readBook();
-                }
-                default -> {
+                    break;
+                default:
                     System.out.println("Book was successfully added.\n");
-                }
+                    break;
             }
         }
         else
@@ -172,13 +171,11 @@ public class Main
         {
             System.out.println("Choose one of the following students:");
 
-            service.getStudents().forEach(e -> {
-                System.out.println(e.getId() + " --> " + e.getFirstName() + " " + e.getLastName());
-            });
+            service.getStudents().forEach((key, value) -> System.out.println(key + " --> " + value.getFirstName() + " " + value.getLastName()));
 
             String choice = scn.nextLine().trim();
 
-            if (isInteger(choice) && service.getStudents().contains(service.getStudent(Integer.parseInt(choice))))
+            if (isInteger(choice) && service.getStudents().containsKey(Integer.parseInt(choice)))
             {
                 Student student = service.getStudent(Integer.parseInt(choice));
 
@@ -188,9 +185,7 @@ public class Main
 
                 if (student.getBooks().size() > 0)
                 {
-                    student.getBooks().forEach(e -> {
-                        System.out.println("\u2022\t" + e.getTitle() + " (ID: " + e.getId() + ")");
-                    });
+                    student.getBooks().forEach((key, value) -> System.out.println("\u2022\t" + value.getTitle() + " (ID: " + value.getId() + ")"));
                     System.out.println();
                 }
                 else
@@ -215,9 +210,7 @@ public class Main
         {
             System.out.println("The following books are currently in stock:");
 
-            service.getBooks().forEach(e -> {
-                System.out.println("\u2022\t" + e.getTitle() + " (ID: " + e.getId() + ")");
-            });
+            service.getBooks().forEach((key, value) -> System.out.println("\u2022\t" + value.getTitle() + " (ID: " + value.getId() + ")"));
             System.out.println();
         }
         else
@@ -237,15 +230,15 @@ public class Main
 
             switch (choice)
             {
-                case UPDATESTUDENT -> {
+                case UPDATESTUDENT:
                     updateStudent();
-                }
-                case UPDATEBOOK -> {
+                    break;
+                case UPDATEBOOK:
                     updateBook();
-                }
-                default -> {
+                    break;
+                default:
                     System.out.println("Chosen action doesn't exist.\n");
-                }
+                    break;
             }
         }
         else
@@ -258,19 +251,17 @@ public class Main
     {
         System.out.println("Choose one of the following students:");
 
-        service.getStudents().forEach(e -> {
-            System.out.println(e.getId() + " --> " + e.getFirstName() + " " + e.getLastName());
-        });
+        service.getStudents().forEach((key, value) -> System.out.println(key + " --> " + value.getFirstName() + " " + value.getLastName()));
 
         String choice = scn.nextLine().trim();
 
-        if (isInteger(choice) && service.getStudents().contains(service.getStudent(Integer.parseInt(choice))))
+        if (isInteger(choice) && service.getStudents().containsKey(Integer.parseInt(choice)))
         {
-            int hashCode = Integer.parseInt(choice);
+            int key = Integer.parseInt(choice);
 
             do
             {
-                System.out.println("Chosen student: " + service.getStudent(hashCode).getLastName() + ", " + service.getStudent(hashCode).getFirstName() + "\n");
+                System.out.println("Chosen student: " + service.getStudent(key).getLastName() + ", " + service.getStudent(key).getFirstName() + "\n");
 
                 System.out.println("Which one of the following actions would you like to choose?\n");
 
@@ -283,28 +274,28 @@ public class Main
 
                 switch (choice)
                 {
-                    case UPDATESTUDENTFIRSTNAME -> {
-                        updateStudentFirstName(hashCode);
-                    }
-                    case UPDATESTUDENTLASTNAME -> {
-                        updateStudentLastName(hashCode);
-                    }
-                    case UPDATESTUDENTADDBOOK -> {
-                        updateStudentAddBook(hashCode);
-                    }
-                    case UPDATESTUDENTREMOVEBOOK -> {
-                        updateStudentRemoveBook(hashCode);
-                    }
-                    default -> {
+                    case UPDATESTUDENTFIRSTNAME:
+                        updateStudentFirstName(key);
+                        break;
+                    case UPDATESTUDENTLASTNAME:
+                        updateStudentLastName(key);
+                        break;
+                    case UPDATESTUDENTADDBOOK:
+                        updateStudentAddBook(key);
+                        break;
+                    case UPDATESTUDENTREMOVEBOOK:
+                        updateStudentRemoveBook(key);
+                        break;
+                    default:
                         System.out.println("Chosen action doesn't exist.\n");
-                    }
+                        break;
                 }
 
                 System.out.println("Would you like to update something else? (Y / N)");
 
                 choice = scn.nextLine().trim();
 
-            } while (choice.toUpperCase().equals("Y"));
+            } while (choice.equalsIgnoreCase("Y"));
         }
         else
         {
@@ -312,55 +303,53 @@ public class Main
         }
     }
 
-    public static void updateStudentFirstName(int hashCode)
+    public static void updateStudentFirstName(int key)
     {
         System.out.println("What's the student's new first name?");
 
         String firstName = scn.nextLine().trim();
 
-        if (firstName.length() > 2)
+        if (!firstName.isEmpty())
         {
-            service.updateStudentFirstName(hashCode, firstName);
+            service.updateStudentFirstName(key, firstName);
             System.out.println("Student's first name was successfully updated.\n");
         }
         else
         {
-            System.out.println("Student could not be updated. First name must be at least three characters long.\n");
+            System.out.println("Student could not be updated. The first name can't be empty.\n");
         }
     }
 
-    public static void updateStudentLastName(int hashCode)
+    public static void updateStudentLastName(int key)
     {
         System.out.println("What's the student's new last name?");
 
         String lastName = scn.nextLine().trim();
 
-        if (lastName.length() > 2)
+        if (!lastName.isEmpty())
         {
-            service.updateStudentLastName(hashCode, lastName);
+            service.updateStudentLastName(key, lastName);
             System.out.println("Student's last name was successfully updated.\n");
         }
         else
         {
-            System.out.println("Student could not be updated. Last name must be at least three characters long.\n");
+            System.out.println("Student could not be updated. The last name can't be empty.\n");
         }
     }
 
-    public static void updateStudentAddBook(int hashCode)
+    public static void updateStudentAddBook(int key)
     {
         if (service.getBooks().size() > 0)
         {
             System.out.println("Choose one of the following books:");
 
-            service.getBooks().forEach(e -> {
-                System.out.println(e.getId() + " --> " + e.getTitle());
-            });
+            service.getBooks().forEach((key2, value) -> System.out.println(key2 + " --> " + value.getTitle()));
 
             String choice = scn.nextLine().trim();
 
-            if (isInteger(choice) && service.getBooks().contains(service.getBook(Integer.parseInt(choice))))
+            if (isInteger(choice) && service.getBooks().containsKey(Integer.parseInt(choice)))
             {
-                service.updateStudentAddBook(hashCode, Integer.parseInt(choice));
+                service.updateStudentAddBook(key, Integer.parseInt(choice));
                 System.out.println("Book is now in student's possession.\n");
             }
             else
@@ -374,21 +363,19 @@ public class Main
         }
     }
 
-    public static void updateStudentRemoveBook(int hashCode)
+    public static void updateStudentRemoveBook(int key)
     {
-        if (service.getStudent(hashCode).getBooks().size() > 0)
+        if (service.getStudent(key).getBooks().size() > 0)
         {
             System.out.println("Choose one of the following books:");
 
-            service.getStudent(hashCode).getBooks().forEach(e -> {
-                System.out.println(e.getId() + " --> " + e.getTitle());
-            });
+            service.getStudent(key).getBooks().forEach((key2, value) -> System.out.println(key2 + " --> " + value.getTitle()));
 
             String choice = scn.nextLine().trim();
 
-            if (isInteger(choice) && service.getStudent(hashCode).getBooks().contains(service.getStudent(hashCode).getBook(Integer.parseInt(choice))))
+            if (isInteger(choice) && service.getStudent(key).getBooks().containsKey(Integer.parseInt(choice)))
             {
-                service.updateStudentRemoveBook(hashCode, Integer.parseInt(choice));
+                service.updateStudentRemoveBook(key, Integer.parseInt(choice));
                 System.out.println("Book is no longer in student's possession.\n");
             }
             else
@@ -406,13 +393,11 @@ public class Main
     {
         System.out.println("Choose one of the following books:");
 
-        service.getBooks().forEach(e -> {
-            System.out.println(e.getId() + " --> " + e.getTitle());
-        });
+        service.getBooks().forEach((key, value) -> System.out.println(key + " --> " + value.getTitle()));
 
         String choice = scn.nextLine().trim();
 
-        if (isInteger(choice) && service.getBooks().contains(service.getBook(Integer.parseInt(choice))))
+        if (isInteger(choice) && service.getBooks().containsKey(Integer.parseInt(choice)))
         {
             System.out.println("What's the book's new title?");
 
@@ -445,15 +430,15 @@ public class Main
 
             switch (choice)
             {
-                case REMOVESTUDENT -> {
+                case REMOVESTUDENT:
                     removeStudent();
-                }
-                case REMOVEBOOK -> {
+                    break;
+                case REMOVEBOOK:
                     removeBook();
-                }
-                default -> {
+                    break;
+                default:
                     System.out.println("Chosen action doesn't exist.\n");
-                }
+                    break;
             }
         }
         else
@@ -468,13 +453,11 @@ public class Main
         {
             System.out.println("Choose one of the following student's:");
 
-            service.getStudents().forEach(e -> {
-                System.out.println(e.getId() + " --> " + e.getFirstName() + " " + e.getLastName());
-            });
+            service.getStudents().forEach((key, value) -> System.out.println(key + " --> " + value.getFirstName() + " " + value.getLastName()));
 
             String choice = scn.nextLine().trim();
 
-            if (isInteger(choice) && service.getStudents().contains(service.getStudent(Integer.parseInt(choice))))
+            if (isInteger(choice) && service.getStudents().containsKey(Integer.parseInt(choice)))
             {
                 service.removeStudent(Integer.parseInt(choice));
                 System.out.println("Student was removed successfully.\n");
@@ -496,13 +479,11 @@ public class Main
         {
             System.out.println("Choose one of the following book's:");
 
-            service.getBooks().forEach(e -> {
-                System.out.println(e.getId() + " --> " + e.getTitle());
-            });
+            service.getBooks().forEach((key, value) -> System.out.println(key + " --> " + value.getTitle()));
 
             String choice = scn.nextLine().trim();
 
-            if (isInteger(choice) && service.getBooks().contains(service.getBook(Integer.parseInt(choice))))
+            if (isInteger(choice) && service.getBooks().containsKey(Integer.parseInt(choice)))
             {
                 service.removeBook(Integer.parseInt(choice));
                 System.out.println("Book was removed successfully.\n");
