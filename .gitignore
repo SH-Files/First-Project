@@ -1,0 +1,6 @@
+#ignored packages
+.idea
+target
+
+#ignored file types
+*.iml

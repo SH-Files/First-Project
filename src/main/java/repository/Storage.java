@@ -1,7 +1,7 @@
 package main.java.repository;
 
-import entity.Book;
-import entity.Student;
+import main.java.entity.Book;
+import main.java.entity.Student;
 
 import java.util.HashMap;
 
