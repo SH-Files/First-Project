@@ -1,9 +1,10 @@
 package main.java.controller;
 
-import entity.Student;
-import service.Service;
+import main.java.entity.Student;
+import main.java.repository.Storage;
+import main.java.service.Service;
+
 import java.util.Scanner;
-import repository.Storage;
 
 public class Main
 {

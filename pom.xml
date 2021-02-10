@@ -8,20 +8,20 @@
     <artifactId>second-project</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
     <build>
-        <sourceDirectory>src</sourceDirectory>
         <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-            </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>controller.Main</mainClass>
+                            <mainClass>main.java.controller.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -40,10 +40,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
 
 </project>
