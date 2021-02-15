@@ -35,7 +35,6 @@ public class Main
 
     public static void main(String[] args)
     {
-        start:
         while (true)
         {
             System.out.println("Which one of the following actions would you like to choose?\n");
@@ -48,25 +47,29 @@ public class Main
 
             String choice = scn.nextLine().trim();
 
-            switch (choice)
+            if (choice.equals(CREATE))
             {
-                case CREATE:
-                    create();
-                    break;
-                case UPDATE:
-                    update();
-                    break;
-                case READ:
-                    read();
-                    break;
-                case REMOVE:
-                    remove();
-                    break;
-                case EXIT:
-                    break start;
-                default:
-                    System.out.println("Chosen action doesn't exist.\n");
-                    break;
+                create();
+            }
+            else if (choice.equals(UPDATE))
+            {
+                update();
+            }
+            else if (choice.equals(READ))
+            {
+                read();
+            }
+            else if (choice.equals(REMOVE))
+            {
+                remove();
+            }
+            else if (choice.equals(EXIT))
+            {
+                break;
+            }
+            else
+            {
+                System.out.println("Chosen action doesn't exist.\n");
             }
         }
         System.out.println("Goodbye and until next time :)");
@@ -79,17 +82,17 @@ public class Main
 
         String choice = scn.nextLine().trim();
 
-        switch (choice)
+        if (choice.equals(CREATESTUDENT))
         {
-            case CREATESTUDENT:
-                createStudent();
-                break;
-            case CREATEBOOK:
-                createBook();
-                break;
-            default:
-                System.out.println("Chosen action doesn't exist.\n");
-                break;
+            createStudent();
+        }
+        else if (choice.equals(CREATEBOOK))
+        {
+            createBook();
+        }
+        else
+        {
+            System.out.println("Chosen action doesn't exist.\n");
         }
     }
 
@@ -134,7 +137,7 @@ public class Main
         }
         else
         {
-            System.out.println("Book could not be added. The title must be at least one character long.\n");
+            System.out.println("Book could not be added. The title can't be empty.\n");
         }
     }
 
@@ -147,17 +150,17 @@ public class Main
 
             String choice = scn.nextLine().trim();
 
-            switch (choice)
+            if (choice.equals(READSTUDENT))
             {
-                case READSTUDENT:
-                    readStudent();
-                    break;
-                case READBOOKS:
-                    readBook();
-                    break;
-                default:
-                    System.out.println("Book was successfully added.\n");
-                    break;
+                readStudent();
+            }
+            else if (choice.equals(READBOOKS))
+            {
+                readBook();
+            }
+            else
+            {
+                System.out.println("Chosen action doesn't exist.\n");
             }
         }
         else
@@ -229,17 +232,17 @@ public class Main
 
             String choice = scn.nextLine().trim();
 
-            switch (choice)
+            if (choice.equals(UPDATESTUDENT))
             {
-                case UPDATESTUDENT:
-                    updateStudent();
-                    break;
-                case UPDATEBOOK:
-                    updateBook();
-                    break;
-                default:
-                    System.out.println("Chosen action doesn't exist.\n");
-                    break;
+                updateStudent();
+            }
+            else if (choice.equals(UPDATEBOOK))
+            {
+                updateBook();
+            }
+            else
+            {
+                System.out.println("Chosen action doesn't exist.\n");
             }
         }
         else
@@ -273,23 +276,25 @@ public class Main
 
                 choice = scn.nextLine().trim();
 
-                switch (choice)
+                if (choice.equals(UPDATESTUDENTFIRSTNAME))
                 {
-                    case UPDATESTUDENTFIRSTNAME:
-                        updateStudentFirstName(key);
-                        break;
-                    case UPDATESTUDENTLASTNAME:
-                        updateStudentLastName(key);
-                        break;
-                    case UPDATESTUDENTADDBOOK:
-                        updateStudentAddBook(key);
-                        break;
-                    case UPDATESTUDENTREMOVEBOOK:
-                        updateStudentRemoveBook(key);
-                        break;
-                    default:
-                        System.out.println("Chosen action doesn't exist.\n");
-                        break;
+                    updateStudentFirstName(key);
+                }
+                else if (choice.equals(UPDATESTUDENTLASTNAME))
+                {
+                    updateStudentLastName(key);
+                }
+                else if (choice.equals(UPDATESTUDENTADDBOOK))
+                {
+                    updateStudentAddBook(key);
+                }
+                else if (choice.equals(UPDATESTUDENTREMOVEBOOK))
+                {
+                    updateStudentRemoveBook(key);
+                }
+                else
+                {
+                    System.out.println("Chosen action doesn't exist.\n");
                 }
 
                 System.out.println("Would you like to update something else? (Y / N)");
@@ -411,7 +416,7 @@ public class Main
             }
             else
             {
-                System.out.println("Book could not be added. The title must be at least one character long.\n");
+                System.out.println("Book could not be added. The title can't be empty.\n");
             }
         }
         else
@@ -429,17 +434,17 @@ public class Main
 
             String choice = scn.nextLine().trim();
 
-            switch (choice)
+            if (choice.equals(REMOVESTUDENT))
             {
-                case REMOVESTUDENT:
-                    removeStudent();
-                    break;
-                case REMOVEBOOK:
-                    removeBook();
-                    break;
-                default:
-                    System.out.println("Chosen action doesn't exist.\n");
-                    break;
+                readStudent();
+            }
+            else if (choice.equals(REMOVEBOOK))
+            {
+                readBook();
+            }
+            else
+            {
+                System.out.println("Chosen action doesn't exist.\n");
             }
         }
         else
