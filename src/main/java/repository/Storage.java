@@ -1,52 +1,25 @@
-package main.java.repository;
+package repository;
 
-import main.java.entity.Book;
-import main.java.entity.Student;
+import entity.Student;
 
 import java.util.HashMap;
 
-public class Storage
-{
-    private final HashMap<Integer, Book> books = new HashMap<>();
-    private final HashMap<Integer, Student> students = new HashMap<>();
+public class Storage {
+    private final HashMap<String, Student> students = new HashMap<>();
 
-    public HashMap<Integer, Book> getBooks()
-    {
-        return this.books;
+    public HashMap<String, Student> getStudents() {
+        return students;
     }
 
-    public HashMap<Integer, Student> getStudents()
-    {
-        return this.students;
+    public Student getStudent(String key) {
+        return students.get(key);
     }
 
-    public Book getBook(int key)
-    {
-        return this.books.get(key);
+    public void addStudent(Student student) {
+        students.put(student.getId(), student);
     }
 
-    public Student getStudent(int key)
-    {
-        return this.students.get(key);
-    }
-
-    public void addBook(int key, Book book)
-    {
-        this.books.put(key, book);
-    }
-
-    public void addStudent(int key, Student student)
-    {
-        this.students.put(key, student);
-    }
-
-    public void removeBook(int key)
-    {
-        this.books.remove(key);
-    }
-
-    public void removeStudent(int key)
-    {
-        this.students.remove(key);
+    public void removeStudent(String key) {
+        students.remove(key);
     }
 }
