@@ -86,7 +86,7 @@ public class Main {
                 System.out.println("Books in possession:");
 
                 if (student.getBooks().size() > 0) {
-                    student.getBooks().forEach(o -> System.out.println("\u2022\t" + o.getTitle() + " (" + o.getId() + ")"));
+                    student.getBooks().forEach(o -> System.out.println("\u2022\t" + o.getTitle() + " (ID:" + o.getId() + ")"));
                 } else {
                     System.out.println("Chosen student has no books in possession yet.");
                 }
