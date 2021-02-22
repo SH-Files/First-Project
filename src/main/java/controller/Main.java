@@ -75,7 +75,7 @@ public class Main {
         if (service.getStudents().size() > 0) {
             System.out.println("Of which of the following students do you want to get information about?");
 
-            service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getFirstName()));
+            service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
             String choice = scn.nextLine().trim();
 
