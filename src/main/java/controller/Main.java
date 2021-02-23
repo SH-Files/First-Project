@@ -19,9 +19,9 @@ public class Main {
     private static final String UPDATESTUDENTLASTNAME = "2";
     private static final String UPDATESTUDENTBOOKS = "3";
 
-    private static final String UPDATESTUDENTBOOKTITLE = "1";
-    private static final String UPDATESTUDENTADDBOOK = "2";
-    private static final String UPDATESTUDENTREMOVEBOOK = "3";
+    private static final String UPDATESTUDENTBOOKSBOOKTITLE = "1";
+    private static final String UPDATESTUDENTBOOKSADDBOOK = "2";
+    private static final String UPDATESTUDENTBOOKSREMOVEBOOK = "3";
 
     private static final Scanner scn = new Scanner(System.in);
     private static final Service service = new Service(new Storage());
@@ -106,7 +106,7 @@ public class Main {
 
     public static void updateStudent() {
         if (service.getStudents().size() > 0) {
-            System.out.println("Which one of the following students do you want to update?");
+            System.out.println("Which one of the following students do you want to edit?");
 
             service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
@@ -181,12 +181,12 @@ public class Main {
 
             String choice = scn.nextLine().trim();
 
-            if (choice.equals(UPDATESTUDENTBOOKTITLE)) {
-                updateStudentBookTitle(student);
-            } else if (choice.equals(UPDATESTUDENTADDBOOK)) {
-                updateStudentAddBook(student);
-            } else if (choice.equals(UPDATESTUDENTREMOVEBOOK)) {
-                updateStudentRemoveBook(student);
+            if (choice.equals(UPDATESTUDENTBOOKSBOOKTITLE)) {
+                updateStudentBooksBookTitle(student);
+            } else if (choice.equals(UPDATESTUDENTBOOKSADDBOOK)) {
+                updateStudentBooksAddBook(student);
+            } else if (choice.equals(UPDATESTUDENTBOOKSREMOVEBOOK)) {
+                updateStudentBooksRemoveBook(student);
             } else {
                 System.out.println("Chosen action doesn't exist.\n");
             }
@@ -195,7 +195,7 @@ public class Main {
         } while (scn.nextLine().trim().equalsIgnoreCase("Y"));
     }
 
-    public static void updateStudentBookTitle(Student student) {
+    public static void updateStudentBooksBookTitle(Student student) {
         if (student.getBooks().size() > 0) {
             System.out.println("Which of the following books do you want to update the title of?");
 
@@ -218,7 +218,7 @@ public class Main {
         }
     }
 
-    public static void updateStudentAddBook(Student student) {
+    public static void updateStudentBooksAddBook(Student student) {
         System.out.println("What's the book's title?");
 
         String title = scn.nextLine().trim();
@@ -231,7 +231,7 @@ public class Main {
         }
     }
 
-    public static void updateStudentRemoveBook(Student student) {
+    public static void updateStudentBooksRemoveBook(Student student) {
         if (student.getBooks().size() > 0) {
             System.out.println("Which one of the following books do you want to remove?");
 
