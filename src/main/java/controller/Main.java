@@ -17,7 +17,7 @@ public class Main {
 
     private static final String UPDATESTUDENTFIRSTNAME = "1";
     private static final String UPDATESTUDENTLASTNAME = "2";
-    private static final String UPDATESTUDENTEDITBOOKS = "3";
+    private static final String UPDATESTUDENTBOOKS = "3";
 
     private static final String UPDATESTUDENTBOOKTITLE = "1";
     private static final String UPDATESTUDENTADDBOOK = "2";
@@ -106,7 +106,7 @@ public class Main {
 
     public static void updateStudent() {
         if (service.getStudents().size() > 0) {
-            System.out.println("Which one of the following students do you want to edit?");
+            System.out.println("Which one of the following students do you want to update?");
 
             service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
@@ -130,8 +130,8 @@ public class Main {
                         updateStudentFirstName(student);
                     } else if (choice.equals(UPDATESTUDENTLASTNAME)) {
                         updateStudentLastName(student);
-                    } else if (choice.equals(UPDATESTUDENTEDITBOOKS)) {
-                        updateStudentEditBooks(student);
+                    } else if (choice.equals(UPDATESTUDENTBOOKS)) {
+                        updateStudentBooks(student);
                     } else {
                         System.out.println("Chosen action doesn't exist.\n");
                     }
@@ -173,7 +173,7 @@ public class Main {
         }
     }
 
-    public static void updateStudentEditBooks(Student student) {
+    public static void updateStudentBooks(Student student) {
         do {
             System.out.println("1 --> I want to update the title of a book.");
             System.out.println("2 --> I want to add a book to the student.");
