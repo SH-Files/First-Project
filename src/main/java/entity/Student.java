@@ -1,79 +1,72 @@
-package main.java.entity;
+package entity;
 
-import java.util.HashMap;
+import java.util.*;
 
-public class Student
-{
-    private int id;
+public class Student {
+    private final String id;
     private String firstName;
     private String lastName;
+    private final Set<Book> books;
 
-    private final HashMap<Integer, Book> books = new HashMap<>();
-
-    public Student(int id, String firstName, String lastName)
-    {
-        this.id = id;
+    public Student(String firstName, String lastName) {
+        this.id = UUID.randomUUID().toString();
         this.firstName = firstName;
         this.lastName = lastName;
+        this.books = new HashSet<>();
     }
 
-    public int getId()
-    {
-        return this.id;
+    public String getId() {
+        return id;
     }
 
-    public void setFirstName(String firstName)
-    {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getFirstName()
-    {
-        return this.firstName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setLastName(String lastName)
-    {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getLastName()
-    {
-        return this.lastName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public HashMap<Integer, Book> getBooks()
-    {
-        return this.books;
+    public Set<Book> getBooks() {
+        return books;
     }
 
-    public void addBook(int key, Book book)
-    {
-        this.books.put(key, book);
+    public void addBook(Book book) {
+        books.add(book);
     }
 
-    public void removeBook(int key)
-    {
-        this.books.remove(key);
-    }
-
-    public Book getBook(int key)
-    {
-        return this.books.get(key);
+    public void removeBook(String id) {
+        Optional<Book> bookWithGivenId = this.books.stream()
+                .filter(book -> book.getId().equals(id))
+                .findFirst();
+        bookWithGivenId.ifPresent(books::remove);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Student student = (Student) o;
-
-        return id == student.id;
+        return id.equals(student.id) &&
+                Objects.equals(firstName, student.firstName) &&
+                Objects.equals(lastName, student.lastName);
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return Objects.hash(id, firstName, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" + "id='" + id + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", books=" + books + '}';
     }
 }

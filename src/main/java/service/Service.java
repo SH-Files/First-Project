@@ -1,85 +1,76 @@
-package main.java.service;
+package service;
 
-import main.java.entity.Book;
-import main.java.entity.Student;
-import main.java.repository.Storage;
+import entity.Book;
+import entity.Student;
+import exception.BookNotFoundException;
+import exception.StudentNotFoundException;
+import repository.Storage;
 
 import java.util.HashMap;
+import java.util.Set;
 
-public class Service
-{
+public class Service {
     private final Storage storage;
 
-    public Service(Storage storage)
-    {
+    public Service(Storage storage) {
         this.storage = storage;
     }
 
-    public Book getBook(int key)
-    {
-        return this.storage.getBook(key);
+    public Student getStudent(String studentKey) {
+        Student student = storage.getStudent(studentKey);
+        if (student == null) {
+            throw new StudentNotFoundException();
+        }
+        return student;
     }
 
-    public Student getStudent(int key)
-    {
-        return this.storage.getStudent(key);
+    public HashMap<String, Student> getStudents() {
+        return storage.getStudents();
     }
 
-    public HashMap<Integer, Book> getBooks()
-    {
-        return this.storage.getBooks();
+    public void createStudent(String firstName, String lastName) {
+        Student createdStudent = new Student(firstName, lastName);
+        storage.addStudent(createdStudent);
     }
 
-    public HashMap<Integer, Student> getStudents()
-    {
-        return this.storage.getStudents();
+    public void updateStudentFirstName(String studentKey, String newFirstName) {
+        Student student = getStudent(studentKey);
+        student.setFirstName(newFirstName);
     }
 
-    public void createBook(String title)
-    {
-        this.storage.addBook(storage.getBooks().size() + 1, new Book(storage.getBooks().size() + 1, title));
+    public void updateStudentLastName(String studentKey, String newLastName) {
+        Student student = getStudent(studentKey);
+        student.setLastName(newLastName);
     }
 
-    public void createStudent(String firstName, String lastName)
-    {
-        this.storage.addStudent(storage.getStudents().size() + 1, new Student(storage.getStudents().size() + 1, firstName, lastName));
+    public void removeStudent(String studentKey) {
+        Student student = getStudent(studentKey);
+        storage.removeStudent(student.getId());
     }
 
-    public void updateStudentFirstName(int key, String firstname)
-    {
-        this.storage.getStudent(key).setFirstName(firstname);
+    public Set<Book> getBooksOfStudent(String studentKey) {
+        Student student = getStudent(studentKey);
+        return student.getBooks();
     }
 
-    public void updateStudentLastName(int key, String lastName)
-    {
-        this.storage.getStudent(key).setLastName(lastName);
+    public void addBookToStudent(String studentKey, String title) {
+        Student student = getStudent(studentKey);
+        Book book = new Book(title);
+        student.addBook(book);
     }
 
-    public void updateStudentAddBook(int keyStudent, int keyBook)
-    {
-        this.storage.getStudent(keyStudent).addBook(this.storage.getStudent(keyStudent).getBooks().size() + 1, this.storage.getBook(keyBook));
-        this.storage.removeBook(keyBook);
+    public void removeBookFromStudent(String studentKey, String bookKey) {
+        Student student = getStudent(studentKey);
+        student.removeBook(bookKey);
     }
 
-    public void updateStudentRemoveBook(int keyStudent, int keyBook)
-    {
-        this.storage.addBook(this.storage.getBooks().size() + 1, this.storage.getStudent(keyStudent).getBook(keyBook));
-        this.storage.getStudent(keyStudent).removeBook(keyBook);
-    }
-
-    public void updateBookTitle(int key, String title)
-    {
-        this.storage.getBook(key).setTitle(title);
-    }
-
-    public void removeBook(int key)
-    {
-        this.storage.removeBook(key);
-    }
-
-    public void removeStudent(int key)
-    {
-        this.storage.getStudent(key).getBooks().forEach((k, v) -> this.storage.addBook(this.storage.getBooks().size() + 1, v));
-        this.storage.removeStudent(key);
+    public void updateBookTitle(String studentKeyBookBelongsTo, String bookKey, String newTitle) {
+        Student student = getStudent(studentKeyBookBelongsTo);
+        Book bookFromStudent = student.getBooks()
+                .stream()
+                .filter(book -> book.getId().equals(bookKey))
+                .findFirst()
+                .orElseThrow(BookNotFoundException::new);
+        bookFromStudent.setTitle(newTitle);
     }
 }

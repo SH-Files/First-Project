@@ -19,8 +19,8 @@ public class Main {
     private static final String UPDATESTUDENTADDBOOK = "3";
     private static final String UPDATESTUDENTREMOVEBOOK = "4";
 
-    private static final Scanner scn = new Scanner(System.in);
-    private static final Service service = new Service(new Storage());
+     private static final Scanner scn = new Scanner(System.in);
+     private static final Service service = new Service(new Storage());
 
     public static void main(String[] args) {
         while (true) {
@@ -86,7 +86,7 @@ public class Main {
                 System.out.println("Books in possession:");
 
                 if (student.getBooks().size() > 0) {
-                    student.getBooks().forEach(o -> System.out.println("\u2022\t" + o.getTitle() + " (ID:" + o.getId() + ")"));
+                    student.getBooks().forEach(o -> System.out.println("\u2022\t" + o.getTitle() + " (ID: " + o.getId() + ")"));
                 } else {
                     System.out.println("Chosen student has no books in possession yet.");
                 }

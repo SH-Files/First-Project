@@ -1,43 +1,45 @@
-package main.java.entity;
+package entity;
 
-public class Book
-{
-    private final int id;
+import java.util.Objects;
+import java.util.UUID;
+
+public class Book {
+    private final String id;
     private String title;
 
-    public Book(int id, String title)
-    {
-        this.id = id;
+    public Book(String title) {
+        this.id = UUID.randomUUID().toString();
         this.title = title;
     }
 
-    public int getId()
-    {
-        return this.id;
+    public String getId() {
+        return id;
     }
 
-    public void setTitle(String title)
-    {
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getTitle()
-    {
-        return this.title;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Book book = (Book) o;
-
-        return id == book.id;
+        return id.equals(book.id) &&
+                Objects.equals(title, book.title);
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return Objects.hash(id, title);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" + "id='" + id + '\'' + ", title='" + title + '\'' + '}';
     }
 }
