@@ -1,5 +1,7 @@
 package entity;
 
+import exception.BookNotFoundException;
+
 import java.util.*;
 
 public class Student {
@@ -44,10 +46,11 @@ public class Student {
     }
 
     public void removeBook(String id) {
-        Optional<Book> bookWithGivenId = this.books.stream()
+        Book bookFromStudent = books.stream()
                 .filter(book -> book.getId().equals(id))
-                .findFirst();
-        bookWithGivenId.ifPresent(books::remove);
+                .findFirst()
+                .orElseThrow(BookNotFoundException::new);
+        books.remove(bookFromStudent);
     }
 
     @Override

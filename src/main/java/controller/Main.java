@@ -1,6 +1,7 @@
 package controller;
 
 import entity.Student;
+import exception.BookNotFoundException;
 import exception.StudentNotFoundException;
 import repository.Storage;
 import service.Service;
@@ -16,14 +17,19 @@ public class Main {
 
     private static final String UPDATESTUDENTFIRSTNAME = "1";
     private static final String UPDATESTUDENTLASTNAME = "2";
-    private static final String UPDATESTUDENTADDBOOK = "3";
-    private static final String UPDATESTUDENTREMOVEBOOK = "4";
+    private static final String UPDATESTUDENTEDITBOOKS = "3";
 
-     private static final Scanner scn = new Scanner(System.in);
-     private static final Service service = new Service(new Storage());
+    private static final String UPDATESTUDENTBOOKTITLE = "1";
+    private static final String UPDATESTUDENTADDBOOK = "2";
+    private static final String UPDATESTUDENTREMOVEBOOK = "3";
+
+    private static final Scanner scn = new Scanner(System.in);
+    private static final Service service = new Service(new Storage());
 
     public static void main(String[] args) {
         while (true) {
+            System.out.println("Which one of the following actions do you choose?");
+
             System.out.println("1 --> I want to add a new student.");
             System.out.println("2 --> I want to get information about a student.");
             System.out.println("3 --> I want to update a student.");
@@ -50,12 +56,12 @@ public class Main {
     }
 
     public static void createStudent() {
-        System.out.println("What's the first name of the student?");
+        System.out.println("What's the student's first name?");
 
         String firstName = scn.nextLine().trim();
 
         if (!firstName.isEmpty()) {
-            System.out.println("What's the last name of the student?");
+            System.out.println("What's the student's last name?");
 
             String lastName = scn.nextLine().trim();
 
@@ -70,17 +76,16 @@ public class Main {
         }
     }
 
-    public static void readStudent()
-    {
+    public static void readStudent() {
         if (service.getStudents().size() > 0) {
-            System.out.println("Of which of the following students do you want to get information about?");
+            System.out.println("Which one of the following students would you like to receive information about?");
 
             service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
-            String choice = scn.nextLine().trim();
+            String studentKey = scn.nextLine().trim();
 
             try {
-                Student student = service.getStudent(choice);
+                Student student = service.getStudent(studentKey);
 
                 System.out.println("Chosen student's name: " + student.getLastName() + ", " + student.getFirstName() + "\n");
                 System.out.println("Books in possession:");
@@ -88,11 +93,11 @@ public class Main {
                 if (student.getBooks().size() > 0) {
                     student.getBooks().forEach(o -> System.out.println("\u2022\t" + o.getTitle() + " (ID: " + o.getId() + ")"));
                 } else {
-                    System.out.println("Chosen student has no books in possession yet.");
+                    System.out.println("Chosen student has no books yet.\n");
                 }
                 System.out.println();
             } catch (StudentNotFoundException e) {
-                System.out.println("Chosen action doesn't exist\n");
+                System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
             System.out.println("There are currently no students who could be read.\n");
@@ -105,10 +110,10 @@ public class Main {
 
             service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
-            String choice = scn.nextLine().trim();
+            String studentKey = scn.nextLine().trim();
 
             try {
-                Student student = service.getStudent(choice);
+                Student student = service.getStudent(studentKey);
 
                 do {
                     System.out.println("Chosen student's name: " + student.getLastName() + ", " + student.getFirstName() + "\n");
@@ -117,33 +122,28 @@ public class Main {
 
                     System.out.println("1 --> I want to update the student's first name.");
                     System.out.println("2 --> I want to update the student's last name.");
-                    System.out.println("3 --> I want to add a book to the student.");
-                    System.out.println("4 --> I want to remove a book from the student.");
+                    System.out.println("3 --> I want to update the student's books.");
 
-                    choice = scn.nextLine().trim();
+                    String choice = scn.nextLine().trim();
 
                     if (choice.equals(UPDATESTUDENTFIRSTNAME)) {
                         updateStudentFirstName(student);
                     } else if (choice.equals(UPDATESTUDENTLASTNAME)) {
                         updateStudentLastName(student);
-                    } else if (choice.equals(UPDATESTUDENTADDBOOK)) {
-                        updateStudentAddBook(student);
-                    } else if (choice.equals(UPDATESTUDENTREMOVEBOOK)) {
-                        updateStudentRemoveBook(student);
+                    } else if (choice.equals(UPDATESTUDENTEDITBOOKS)) {
+                        updateStudentEditBooks(student);
                     } else {
-                        System.out.println("Chosen action doesn't exist\n");
+                        System.out.println("Chosen action doesn't exist.\n");
                     }
 
-                    System.out.println("Do you want to update something else? (Y / N)");
+                    System.out.println("Do you want to keep updating the student? (Y / N)\n");
 
-                    choice = scn.nextLine().trim();
-
-                } while (choice.equalsIgnoreCase("Y"));
+                } while (scn.nextLine().trim().equalsIgnoreCase("Y"));
             } catch (StudentNotFoundException e) {
-                System.out.println("Chosen action doesn't exist\n");
+                System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
-            System.out.println("There are currently no students who could be updated.\n");
+                System.out.println("Currently there are no students that could be updated.\n");
         }
     }
 
@@ -173,6 +173,51 @@ public class Main {
         }
     }
 
+    public static void updateStudentEditBooks(Student student) {
+        do {
+            System.out.println("1 --> I want to update the title of a book.");
+            System.out.println("2 --> I want to add a book to the student.");
+            System.out.println("3 --> I want to remove a book from the student.");
+
+            String choice = scn.nextLine().trim();
+
+            if (choice.equals(UPDATESTUDENTBOOKTITLE)) {
+                updateStudentBookTitle(student);
+            } else if (choice.equals(UPDATESTUDENTADDBOOK)) {
+                updateStudentAddBook(student);
+            } else if (choice.equals(UPDATESTUDENTREMOVEBOOK)) {
+                updateStudentRemoveBook(student);
+            } else {
+                System.out.println("Chosen action doesn't exist.\n");
+            }
+            System.out.println("Do you want to keep updating the student's books? (Y / N)\n");
+
+        } while (scn.nextLine().trim().equalsIgnoreCase("Y"));
+    }
+
+    public static void updateStudentBookTitle(Student student) {
+        if (student.getBooks().size() > 0) {
+            System.out.println("Which of the following books do you want to update the title of?");
+
+            student.getBooks().forEach(o -> System.out.println(o.getId() + " --> " + o.getTitle()));
+
+            String bookKey = scn.nextLine().trim();
+
+            System.out.println("What's the book's new title?");
+
+            String newTitle = scn.nextLine().trim();
+
+            try {
+                service.updateBookTitle(student.getId(), bookKey, newTitle);
+                System.out.println("Book was successfully updated.\n");
+            } catch (BookNotFoundException e) {
+                System.out.println("Chosen action doesn't exist.\n");
+            }
+        } else {
+            System.out.println("Chosen student has currently no books which could be updated.\n");
+        }
+    }
+
     public static void updateStudentAddBook(Student student) {
         System.out.println("What's the book's title?");
 
@@ -182,7 +227,7 @@ public class Main {
             service.addBookToStudent(student.getId(), title);
             System.out.println("Book was added successfully.\n");
         } else {
-            System.out.println("Book couldn't be created. Title cannot be empty.\n");
+            System.out.println("Book couldn't be added. Title cannot be empty.\n");
         }
     }
 
@@ -192,12 +237,16 @@ public class Main {
 
             student.getBooks().forEach(o -> System.out.println(o.getId() + " --> " + o.getTitle()));
 
-            String choice = scn.nextLine().trim();
+            String bookKey = scn.nextLine().trim();
 
-            service.removeBookFromStudent(student.getId(), choice);
-            System.out.println("Book was successfully removed.\n");
+            try {
+                service.removeBookFromStudent(student.getId(), bookKey);
+                System.out.println("Book was successfully removed.\n");
+            } catch (BookNotFoundException e) {
+                System.out.println("Chosen action doesn't exist.\n");
+            }
         } else {
-            System.out.println("No books can be removed. Chosen student has no books yet.\n");
+            System.out.println("Chosen student currently has no books that could be removed.\n");
         }
     }
 
@@ -207,10 +256,10 @@ public class Main {
 
             service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
-            String choice = scn.nextLine().trim();
+            String studentKey = scn.nextLine().trim();
 
             try {
-                service.removeStudent(choice);
+                service.removeStudent(studentKey);
             } catch (StudentNotFoundException e) {
                 System.out.println("Chosen action doesn't exist.\n");
             }

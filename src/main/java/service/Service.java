@@ -29,8 +29,8 @@ public class Service {
     }
 
     public void createStudent(String firstName, String lastName) {
-        Student createdStudent = new Student(firstName, lastName);
-        storage.addStudent(createdStudent);
+        Student student = new Student(firstName, lastName);
+        storage.addStudent(student);
     }
 
     public void updateStudentFirstName(String studentKey, String newFirstName) {
@@ -46,11 +46,6 @@ public class Service {
     public void removeStudent(String studentKey) {
         Student student = getStudent(studentKey);
         storage.removeStudent(student.getId());
-    }
-
-    public Set<Book> getBooksOfStudent(String studentKey) {
-        Student student = getStudent(studentKey);
-        return student.getBooks();
     }
 
     public void addBookToStudent(String studentKey, String title) {
