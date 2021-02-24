@@ -27,7 +27,6 @@ Let's say we downloaded the *.jar* file into the default download folder. Then w
 cd C:\Users\Sebastian\Downloads
 
 java -jar first-project-1.0-SNAPSHOT-jar-with-dependencies.jar
-
 ```
 
 That's all.
