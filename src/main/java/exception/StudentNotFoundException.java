@@ -1,3 +1,3 @@
 package exception;
 
-public class StudentNotFoundException extends RuntimeException { }
+public class StudentNotFoundException extends RuntimeException {}

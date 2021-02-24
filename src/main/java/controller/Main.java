@@ -1,34 +1,20 @@
 package controller;
 
 import entity.Student;
+import service.Service;
+import java.util.Scanner;
+import enumeration.Action;
+import repository.Storage;
 import exception.BookNotFoundException;
 import exception.StudentNotFoundException;
-import repository.Storage;
-import service.Service;
-
-import java.util.Scanner;
 
 public class Main {
-    private static final String CREATE = "1";
-    private static final String READ = "2";
-    private static final String UPDATE = "3";
-    private static final String REMOVE = "4";
-    private static final String QUIT = "5";
-
-    private static final String UPDATESTUDENTFIRSTNAME = "1";
-    private static final String UPDATESTUDENTLASTNAME = "2";
-    private static final String UPDATESTUDENTBOOKS = "3";
-
-    private static final String UPDATESTUDENTBOOKSBOOKTITLE = "1";
-    private static final String UPDATESTUDENTBOOKSADDBOOK = "2";
-    private static final String UPDATESTUDENTBOOKSREMOVEBOOK = "3";
-
     private static final Scanner scn = new Scanner(System.in);
     private static final Service service = new Service(new Storage());
 
     public static void main(String[] args) {
         while (true) {
-            System.out.println("Which one of the following actions do you choose?");
+            System.out.println("Which one of the following actions do you choose?\n");
 
             System.out.println("1 --> I want to add a new student.");
             System.out.println("2 --> I want to get information about a student.");
@@ -38,15 +24,15 @@ public class Main {
 
             String choice = scn.nextLine().trim();
 
-            if (choice.equals(CREATE)) {
+            if (choice.equals(Action.CREATE.getCode())) {
                 createStudent();
-            } else if (choice.equals(READ)) {
+            } else if (choice.equals(Action.READ.getCode())) {
                 readStudent();
-            } else if (choice.equals(UPDATE)) {
+            } else if (choice.equals(Action.UPDATE.getCode())) {
                 updateStudent();
-            } else if (choice.equals(REMOVE)) {
+            } else if (choice.equals(Action.REMOVE.getCode())) {
                 removeStudent();
-            } else if (choice.equals(QUIT)) {
+            } else if (choice.equals(Action.QUIT.getCode())) {
                 break;
             } else {
                 System.out.println("Chosen action doesn't exist.\n");
@@ -93,20 +79,20 @@ public class Main {
                 if (student.getBooks().size() > 0) {
                     student.getBooks().forEach(o -> System.out.println("\u2022\t" + o.getTitle() + " (ID: " + o.getId() + ")"));
                 } else {
-                    System.out.println("Chosen student has no books yet.\n");
+                    System.out.println("Student has currently no books in possession.\n");
                 }
                 System.out.println();
             } catch (StudentNotFoundException e) {
                 System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
-            System.out.println("There are currently no students who could be read.\n");
+            System.out.println("There are currently no students that could be read.\n");
         }
     }
 
     public static void updateStudent() {
         if (service.getStudents().size() > 0) {
-            System.out.println("Which one of the following students do you want to edit?");
+            System.out.println("Which one of the following students do you want to update?");
 
             service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
@@ -126,24 +112,24 @@ public class Main {
 
                     String choice = scn.nextLine().trim();
 
-                    if (choice.equals(UPDATESTUDENTFIRSTNAME)) {
+                    if (choice.equals(Action.UPDATESTUDENTFIRSTNAME.getCode())) {
                         updateStudentFirstName(student);
-                    } else if (choice.equals(UPDATESTUDENTLASTNAME)) {
+                    } else if (choice.equals(Action.UPDATESTUDENTLASTNAME.getCode())) {
                         updateStudentLastName(student);
-                    } else if (choice.equals(UPDATESTUDENTBOOKS)) {
+                    } else if (choice.equals(Action.UPDATESTUDENTBOOKS.getCode())) {
                         updateStudentBooks(student);
                     } else {
                         System.out.println("Chosen action doesn't exist.\n");
                     }
 
-                    System.out.println("Do you want to keep updating the student? (Y / N)\n");
+                    System.out.println("Do you want to keep updating the student? (Y / N)");
 
                 } while (scn.nextLine().trim().equalsIgnoreCase("Y"));
             } catch (StudentNotFoundException e) {
                 System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
-                System.out.println("Currently there are no students that could be updated.\n");
+                System.out.println("There are currently no students that could be updated.\n");
         }
     }
 
@@ -181,16 +167,16 @@ public class Main {
 
             String choice = scn.nextLine().trim();
 
-            if (choice.equals(UPDATESTUDENTBOOKSBOOKTITLE)) {
+            if (choice.equals(Action.UPDATESTUDENTBOOKSBOOKTITLE.getCode())) {
                 updateStudentBooksBookTitle(student);
-            } else if (choice.equals(UPDATESTUDENTBOOKSADDBOOK)) {
+            } else if (choice.equals(Action.UPDATESTUDENTBOOKSADDBOOK.getCode())) {
                 updateStudentBooksAddBook(student);
-            } else if (choice.equals(UPDATESTUDENTBOOKSREMOVEBOOK)) {
+            } else if (choice.equals(Action.UPDATESTUDENTBOOKSREMOVEBOOK.getCode())) {
                 updateStudentBooksRemoveBook(student);
             } else {
                 System.out.println("Chosen action doesn't exist.\n");
             }
-            System.out.println("Do you want to keep updating the student's books? (Y / N)\n");
+            System.out.println("Do you want to keep updating the student's books? (Y / N)");
 
         } while (scn.nextLine().trim().equalsIgnoreCase("Y"));
     }
@@ -214,7 +200,7 @@ public class Main {
                 System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
-            System.out.println("Chosen student has currently no books which could be updated.\n");
+            System.out.println("Chosen student has no books that could be updated.\n");
         }
     }
 
@@ -246,7 +232,7 @@ public class Main {
                 System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
-            System.out.println("Chosen student currently has no books that could be removed.\n");
+            System.out.println("Chosen student has no books that could be removed.\n");
         }
     }
 
@@ -260,11 +246,12 @@ public class Main {
 
             try {
                 service.removeStudent(studentKey);
+                System.out.println("Student was successfully removed.\n");
             } catch (StudentNotFoundException e) {
                 System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
-            System.out.println("There are currently no students who could be removed.\n");
+            System.out.println("There are currently no students that could be removed.\n");
         }
     }
 }

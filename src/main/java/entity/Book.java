@@ -1,7 +1,7 @@
 package entity;
 
-import java.util.Objects;
 import java.util.UUID;
+import java.util.Objects;
 
 public class Book {
     private final String id;
