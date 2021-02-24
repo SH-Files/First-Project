@@ -17,9 +17,6 @@ To get the project running on your own computer, follow the steps below.
 1. Extract the files from the compressed folder.
 1. Open the folder in the downloaded IDE and run the Main under *First-Project-main/src/main/java/controller* by right clicking on it and choosing the action *Run Main.main()*.
 
-### Alternative way
-You also can simply download and execute the *.jar* file within the project. However, some characters are displayed incorrectly.
-
 ## Contributors
 
 * Sebastian Hähn [GitHub](https://github.com/SH-Files)
