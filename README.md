@@ -1,8 +1,8 @@
-#First-Project
+# First-Project
 
 This project should help me as a trainee to become more familiar with the programming language **Java** and to bring me closer to working methods and tools that are used in real practice.
 
-##How to get started
+## How to get started
 To get the project running on your own computer, follow the steps below.
 
 1. Install an **IDE** (**I**ntegrated **D**evelopment **E**nvironment) of your choice. In the following the installation of the IDE **IntelliJ** is described.
@@ -17,10 +17,10 @@ To get the project running on your own computer, follow the steps below.
 1. Extract the files from the compressed folder.
 1. Open the folder in the downloaded IDE and run the Main under *First-Project-main/src/main/java/controller* by right clicking on it and choosing the action *Run Main.main()*.
 
-###Alternative way
+### Alternative way
 You also can simply download and execute the *.jar* file within the project. However, some characters are displayed incorrectly.
 
-##Contributors
+## Contributors
 
 * Sebastian Hähn [GitHub](https://github.com/SH-Files)
 * Ilia Ilin [GitHub](https://github.com/IliaIlin)
