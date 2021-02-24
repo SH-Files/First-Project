@@ -21,7 +21,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>main.java.controller.Main</mainClass>
+                            <mainClass>controller.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
