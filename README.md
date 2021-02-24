@@ -18,7 +18,19 @@ To get the project running on your own computer, follow the steps below.
 1. Open the folder in the downloaded IDE and run the Main under *First-Project-main/src/main/java/controller* by right clicking on it and choosing the action *Run Main.main()*.
 
 ### Alternative way
-You also can simply download and execute the *.jar* file within the project. However, some characters are displayed incorrectly.
+You also can simply download and execute the *.jar* file within the project via the console.
+
+**Example**
+Let's say we downloaded the *.jar* file into the default download folder. Then we would execute it the following way:
+
+```
+cd C:\Users\Sebastian\Downloads
+
+java -jar first-project-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+```
+
+That's all.
 
 ## Contributors
 
