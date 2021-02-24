@@ -7,7 +7,7 @@ To get the project running on your own computer, follow the steps below.
 
 1. Install an **IDE** (**I**ntegrated **D**evelopment **E**nvironment) of your choice. In the following the installation of the IDE **IntelliJ** is described.
     1. Click [here](https://www.jetbrains.com/de-de/idea/download/#section=windows "JetBrains") and download the Community version. Alternativly you can also click the following [link](https://www.jetbrains.com/de-de/idea/download/download-thanks.html?platform=windows&code=IIC "Download") which lets you download the .exe file directly.
-    1. Execute the downloaded .exe file and follow the installation wizard.
+    1. Execute the downloaded *.exe* file and follow the installation wizard.
         1. **Welcome** Just skip this window by clicking on *Next*.
         1. **Choose Install Location** Choose an installation location of your choice. You can also leave everything as it is and click on Next.
         1. **Choose Start Menu Folder** Just skip this window by clicking on *Next*.
