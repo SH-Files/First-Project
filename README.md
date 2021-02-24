@@ -19,5 +19,5 @@ To get the project running on your own computer, follow the steps below.
 
 ## Contributors
 
-* Sebastian Hähn [GitHub](https://github.com/SH-Files)
 * Ilia Ilin [GitHub](https://github.com/IliaIlin)
+* Sebastian Hähn [GitHub](https://github.com/SH-Files)
