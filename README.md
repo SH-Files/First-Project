@@ -20,7 +20,7 @@ To get the project running on your own computer, follow the steps below.
 ### Alternative way
 You also can simply download and execute the *.jar* file within the project via the console.
 
-**Example**
+**Example**  
 Let's say we downloaded the *.jar* file into the default download folder. Then we would execute it the following way:
 
 ```
