@@ -6,7 +6,7 @@ This project should help me as a trainee to become more familiar with the progra
 To get the project running on your own computer, follow the steps below.
 
 1. Install an **IDE** (**I**ntegrated **D**evelopment **E**nvironment) of your choice. In the following the installation of the IDE **IntelliJ** is described.
-    1. Click [here](https://www.jetbrains.com/de-de/idea/download "JetBrains") and download the Community version.
+    1. Click [here](https://www.jetbrains.com/de-de/idea/download "IntelliJ IDEA Community Edition Download") and download the Community version.
     1. Execute the downloaded *.exe* file and follow the installation wizard.
         1. **Welcome** Just skip this window by clicking on *Next*.
         1. **Choose Install Location** Choose an installation location of your choice. You can also leave everything as it is and click on *Next*.
