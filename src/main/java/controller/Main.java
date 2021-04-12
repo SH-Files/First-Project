@@ -14,7 +14,7 @@ public class Main {
 
     private static ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-    private final static Scanner scn = context.getBean("scanner", Scanner.class);
+    private final static Scanner scn = new Scanner(System.in);
     private final static StudentService studentService = context.getBean("service", StudentService.class);
 
     public static void main(String[] args) {

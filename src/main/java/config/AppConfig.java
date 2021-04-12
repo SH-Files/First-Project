@@ -35,9 +35,4 @@ public class AppConfig {
         return new Book();
     }
 
-    @Bean(name = "scanner")
-    public Scanner getScanner() {
-        return new Scanner(System.in);
-    }
-
 }
