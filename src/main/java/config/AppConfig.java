@@ -2,13 +2,11 @@ package config;
 
 import entity.Book;
 import entity.Student;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import repository.Storage;
 import service.StudentService;
-
-import java.util.Scanner;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
@@ -25,14 +23,14 @@ public class AppConfig {
 
     @Bean(name = "student")
     @Scope("prototype")
-    public Student getStudent() {
-        return new Student();
+    public Student getStudent(String firstName, String lastName) {
+        return new Student(firstName, lastName);
     }
 
     @Bean(name = "book")
     @Scope("prototype")
-    public Book getBook() {
-        return new Book();
+    public Book getBook(String title) {
+        return new Book(title);
     }
 
 }

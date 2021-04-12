@@ -11,6 +11,12 @@ public class Student {
     private String lastName;
     private final Set<Book> books = new HashSet<>();
 
+    public Student(String firstName, String lastName) {
+        this.id = UUID.randomUUID().toString();
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -68,6 +74,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" + "id='" + id + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", books=" + books + '}';
+        return String.format("Student { id = %s, firstName = %s, lastName = %s, books = %s }", id, firstName, lastName, books);
     }
 }

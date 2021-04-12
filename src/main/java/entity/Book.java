@@ -1,14 +1,19 @@
 package entity;
 
-import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 import java.util.Objects;
+import java.util.UUID;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class Book {
     private String id;
     private String title;
+
+    public Book(String title) {
+        this.id = UUID.randomUUID().toString();
+        this.title = title;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -42,6 +47,6 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" + "id='" + id + '\'' + ", title='" + title + '\'' + '}';
+        return String.format("Book { id = %s, title = %s }", id, title);
     }
 }

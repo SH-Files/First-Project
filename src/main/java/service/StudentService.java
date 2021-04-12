@@ -3,7 +3,6 @@ package service;
 import entity.Book;
 import entity.Student;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -34,11 +33,7 @@ public class StudentService {
     }
 
     public void createStudent(String firstName, String lastName) {
-        Student student = context.getBean("student", Student.class);
-        student.setId(UUID.randomUUID().toString());
-        student.setFirstName(firstName);
-        student.setLastName(lastName);
-
+        Student student = (Student) context.getBean("student", firstName, lastName);
         storage.addStudent(student);
     }
 
@@ -59,11 +54,7 @@ public class StudentService {
 
     public void addBookToStudent(String studentKey, String title) {
         Student student = getStudent(studentKey);
-
-        Book book = new Book();
-        book.setId(UUID.randomUUID().toString());
-        book.setTitle(title);
-
+        Book book = (Book) context.getBean("book", title);
         student.addBook(book);
     }
 

@@ -1,18 +1,18 @@
 package controller;
 
-import config.AppConfig;
 import entity.Student;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import service.StudentService;
+import config.AppConfig;
 import java.util.Scanner;
 import enumeration.Action;
+import service.StudentService;
 import exception.BookNotFoundException;
 import exception.StudentNotFoundException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
 
-    private static ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+    private static final ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
     private final static Scanner scn = new Scanner(System.in);
     private final static StudentService studentService = context.getBean("service", StudentService.class);
