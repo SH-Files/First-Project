@@ -1,15 +1,17 @@
 package entity;
 
+import org.springframework.stereotype.Component;
+
 import java.util.UUID;
 import java.util.Objects;
 
+@Component
 public class Book {
-    private final String id;
+    private String id;
     private String title;
 
-    public Book(String title) {
-        this.id = UUID.randomUUID().toString();
-        this.title = title;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getId() {

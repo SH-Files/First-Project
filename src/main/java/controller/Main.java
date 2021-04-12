@@ -1,16 +1,21 @@
 package controller;
 
+import config.AppConfig;
 import entity.Student;
-import service.Service;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import service.StudentService;
 import java.util.Scanner;
 import enumeration.Action;
-import repository.Storage;
 import exception.BookNotFoundException;
 import exception.StudentNotFoundException;
 
 public class Main {
-    private static final Scanner scn = new Scanner(System.in);
-    private static final Service service = new Service(new Storage());
+
+    private static ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+
+    private final static Scanner scn = context.getBean("scanner", Scanner.class);
+    private final static StudentService studentService = context.getBean("service", StudentService.class);
 
     public static void main(String[] args) {
         while (true) {
@@ -52,7 +57,7 @@ public class Main {
             String lastName = scn.nextLine().trim();
 
             if (!lastName.isEmpty()) {
-                service.createStudent(firstName, lastName);
+                studentService.createStudent(firstName, lastName);
                 System.out.println("Student was created successfully.\n");
             } else {
                 System.out.println("Student couldn't be created. Last name cannot be empty.\n");
@@ -63,15 +68,15 @@ public class Main {
     }
 
     public static void readStudent() {
-        if (service.getStudents().size() > 0) {
+        if (studentService.getStudents().size() > 0) {
             System.out.println("Which one of the following students would you like to receive information about?");
 
-            service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
+            studentService.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
             String studentKey = scn.nextLine().trim();
 
             try {
-                Student student = service.getStudent(studentKey);
+                Student student = studentService.getStudent(studentKey);
 
                 System.out.println("Chosen student's name: " + student.getLastName() + ", " + student.getFirstName() + "\n");
                 System.out.println("Books in possession:");
@@ -91,15 +96,15 @@ public class Main {
     }
 
     public static void updateStudent() {
-        if (service.getStudents().size() > 0) {
+        if (studentService.getStudents().size() > 0) {
             System.out.println("Which one of the following students do you want to update?");
 
-            service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
+            studentService.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
             String studentKey = scn.nextLine().trim();
 
             try {
-                Student student = service.getStudent(studentKey);
+                Student student = studentService.getStudent(studentKey);
 
                 do {
                     System.out.println("Chosen student's name: " + student.getLastName() + ", " + student.getFirstName() + "\n");
@@ -139,7 +144,7 @@ public class Main {
         String newFirstName = scn.nextLine().trim();
 
         if (!newFirstName.isEmpty()) {
-            service.updateStudentFirstName(student.getId(), newFirstName);
+            studentService.updateStudentFirstName(student.getId(), newFirstName);
             System.out.println("Student's first name was updated successfully.\n");
         } else {
             System.out.println("Student couldn't be updated. First name can't be empty.\n");
@@ -152,7 +157,7 @@ public class Main {
         String newLastName = scn.nextLine().trim();
 
         if (!newLastName.isEmpty()) {
-            service.updateStudentLastName(student.getId(), newLastName);
+            studentService.updateStudentLastName(student.getId(), newLastName);
             System.out.println("Student's last name was updated successfully.\n");
         } else {
             System.out.println("Student couldn't be updated. Last name can't be empty.\n");
@@ -194,7 +199,7 @@ public class Main {
             String newTitle = scn.nextLine().trim();
 
             try {
-                service.updateBookTitle(student.getId(), bookKey, newTitle);
+                studentService.updateBookTitle(student.getId(), bookKey, newTitle);
                 System.out.println("Book was successfully updated.\n");
             } catch (BookNotFoundException e) {
                 System.out.println("Chosen action doesn't exist.\n");
@@ -210,7 +215,7 @@ public class Main {
         String title = scn.nextLine().trim();
 
         if (!title.isEmpty()) {
-            service.addBookToStudent(student.getId(), title);
+            studentService.addBookToStudent(student.getId(), title);
             System.out.println("Book was added successfully.\n");
         } else {
             System.out.println("Book couldn't be added. Title cannot be empty.\n");
@@ -226,7 +231,7 @@ public class Main {
             String bookKey = scn.nextLine().trim();
 
             try {
-                service.removeBookFromStudent(student.getId(), bookKey);
+                studentService.removeBookFromStudent(student.getId(), bookKey);
                 System.out.println("Book was successfully removed.\n");
             } catch (BookNotFoundException e) {
                 System.out.println("Chosen action doesn't exist.\n");
@@ -237,15 +242,15 @@ public class Main {
     }
 
     public static void removeStudent() {
-        if (service.getStudents().size() > 0) {
+        if (studentService.getStudents().size() > 0) {
             System.out.println("Which one of the following students do you want to remove?");
 
-            service.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
+            studentService.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
             String studentKey = scn.nextLine().trim();
 
             try {
-                service.removeStudent(studentKey);
+                studentService.removeStudent(studentKey);
                 System.out.println("Student was successfully removed.\n");
             } catch (StudentNotFoundException e) {
                 System.out.println("Chosen action doesn't exist.\n");

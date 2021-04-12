@@ -2,18 +2,17 @@ package entity;
 
 import java.util.*;
 import exception.BookNotFoundException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Student {
-    private final String id;
+    private String id;
     private String firstName;
     private String lastName;
-    private final Set<Book> books;
+    private final Set<Book> books = new HashSet<>();
 
-    public Student(String firstName, String lastName) {
-        this.id = UUID.randomUUID().toString();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.books = new HashSet<>();
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getId() {
