@@ -12,7 +12,7 @@ To get the project running on your own computer, follow the steps below.
         1. **Choose Install Location** Choose an installation location of your choice. You can also leave everything as it is and click on *Next*.
         1. **Choose Start Menu Folder** Just skip this window by clicking on *Next*.
         1. **Installation Options** Choose whether you want a shortcut for the program on your desktop or not. The linked file extensions *.java* and *.groovy* can be left checked. Click on *Next*.
-        1. **Completing** If you want the program to open automatically after installation, check the box *Run IntelliJ IDEA Community Edition*. Click on *Finish* to start the installation.
+        1. **Completing** If you want the program to open automatically after installation, check the box *Run IntelliJ IDEA Community Edition*. Click on *Finish*.
 1. Download this project by clicking on the green button *Code* in the upper right corner and choosing *Download ZIP*.
 1. Extract the files from the compressed folder.
 1. Open the folder in the downloaded IDE and run the Main under *First-Project-main/src/main/java/controller* by right clicking on it and choosing the action *Run Main.main()*.
