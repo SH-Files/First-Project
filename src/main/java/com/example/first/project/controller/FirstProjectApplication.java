@@ -1,27 +1,33 @@
 package com.example.first.project.controller;
 
-import com.example.first.project.entity.Student;
 import com.example.first.project.config.AppConfig;
+import com.example.first.project.entity.Student;
 import com.example.first.project.enumeration.Action;
-import org.springframework.context.ApplicationContext;
+
+
 import com.example.first.project.service.StudentService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import com.example.first.project.exception.BookNotFoundException;
 import com.example.first.project.exception.StudentNotFoundException;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Scanner;
 
 @SpringBootApplication
+@RestController
 public class FirstProjectApplication {
 
 	private static final ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-	private final static StudentService studentService = context.getBean("service", StudentService.class);
+	private static final StudentService studentService = (StudentService) context.getBean("studentService");
 
 	private final static Scanner scn = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		// SpringApplication.run(FirstProjectApplication.class, args);
+		SpringApplication.run(FirstProjectApplication.class, args);
 
 		while (true) {
 			System.out.println("Which one of the following actions do you choose?\n");
@@ -49,6 +55,11 @@ public class FirstProjectApplication {
 			}
 		}
 		System.out.println("Goodbye and until next time :)");
+	}
+
+	@GetMapping
+	public String helloWorld() {
+		return "Hello World!";
 	}
 
 	public static void createStudent() {

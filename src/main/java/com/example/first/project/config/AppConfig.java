@@ -11,7 +11,7 @@ import com.example.first.project.repository.DataMemoryStorage;
 @Configuration
 public class AppConfig {
 
-    @Bean(name = "service")
+    @Bean(name = "studentService")
     public StudentService getService() {
         return new StudentService();
     }
