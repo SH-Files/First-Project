@@ -1,23 +1,26 @@
 package com.example.first.project.service;
 
 import java.util.HashMap;
+
 import com.example.first.project.entity.Book;
-import org.springframework.stereotype.Service;
 import com.example.first.project.entity.Student;
-import org.springframework.context.ApplicationContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.example.first.project.repository.DataMemoryStorage;
 import com.example.first.project.exception.BookNotFoundException;
 import com.example.first.project.exception.StudentNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
 
 @Service
 public class StudentService {
 
-    @Autowired
-    private DataMemoryStorage dataMemoryStorage;
+    private final DataMemoryStorage dataMemoryStorage;
 
     @Autowired
-    private ApplicationContext context;
+    public StudentService(DataMemoryStorage dataMemoryStorage) {
+        this.dataMemoryStorage = dataMemoryStorage;
+    }
 
     public Student getStudent(String studentKey) {
         Student student = dataMemoryStorage.getStudent(studentKey);
@@ -32,7 +35,7 @@ public class StudentService {
     }
 
     public void createStudent(String firstName, String lastName) {
-        Student student = (Student) context.getBean("student", firstName, lastName);
+        Student student = new Student(firstName, lastName);
         dataMemoryStorage.addStudent(student);
     }
 
@@ -53,22 +56,27 @@ public class StudentService {
 
     public void addBookToStudent(String studentKey, String title) {
         Student student = getStudent(studentKey);
-        Book book = (Book) context.getBean("book", title);
+        Book book = new Book(title);
         student.addBook(book);
     }
 
     public void removeBookFromStudent(String studentKey, String bookKey) {
-        Student student = getStudent(studentKey);
-        student.removeBook(bookKey);
+    Student student = getStudent(studentKey);
+    student.removeBook(bookKey);
     }
 
     public void updateBookTitle(String studentKeyBookBelongsTo, String bookKey, String newTitle) {
         Student student = getStudent(studentKeyBookBelongsTo);
         Book bookFromStudent = student.getBooks()
-                .stream()
-                .filter(book -> book.getId().equals(bookKey))
-                .findFirst()
-                .orElseThrow(BookNotFoundException::new);
+            .stream()
+            .filter(book -> book.getId().equals(bookKey))
+            .findFirst()
+            .orElseThrow(BookNotFoundException::new);
         bookFromStudent.setTitle(newTitle);
+    }
+
+    @PostConstruct
+    public void print() {
+        System.out.println("studentService!");
     }
 }
