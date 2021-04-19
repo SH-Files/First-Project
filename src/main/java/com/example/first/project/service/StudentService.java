@@ -10,8 +10,6 @@ import com.example.first.project.exception.StudentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-
 @Service
 public class StudentService {
 
@@ -73,10 +71,5 @@ public class StudentService {
             .findFirst()
             .orElseThrow(BookNotFoundException::new);
         bookFromStudent.setTitle(newTitle);
-    }
-
-    @PostConstruct
-    public void print() {
-        System.out.println("studentService!");
     }
 }
