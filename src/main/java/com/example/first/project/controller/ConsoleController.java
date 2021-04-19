@@ -14,12 +14,12 @@ import java.util.Scanner;
 @Controller
 public class ConsoleController implements CommandLineRunner {
 
+    private final Scanner scn;
     private final StudentService studentService;
-
-    private final Scanner scn = new Scanner(System.in);
 
     @Autowired
     public ConsoleController(StudentService studentService) {
+        scn = new Scanner(System.in);
         this.studentService = studentService;
     }
 

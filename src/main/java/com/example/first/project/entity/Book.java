@@ -3,9 +3,6 @@ package com.example.first.project.entity;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class Book {
     private String id;
     private String title;

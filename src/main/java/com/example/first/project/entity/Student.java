@@ -2,10 +2,8 @@ package com.example.first.project.entity;
 
 import java.util.*;
 
-import org.springframework.stereotype.Component;
 import com.example.first.project.exception.BookNotFoundException;
 
-@Component
 public class Student {
     private String id;
     private String firstName;
