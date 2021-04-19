@@ -14,7 +14,7 @@ import java.util.Scanner;
 @Controller
 public class ConsoleController implements CommandLineRunner {
 
-    StudentService studentService;
+    private final StudentService studentService;
 
     private final Scanner scn = new Scanner(System.in);
 
