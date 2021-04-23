@@ -1,14 +1,26 @@
 package com.example.first.project.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity(name = "Book")
+@Table(name = "book")
 public class Book {
+
+    @Id
     private String id;
+
+    @Column
     private String title;
 
+    public Book() {}
+
     public Book(String title) {
-        this.id = UUID.randomUUID().toString();
+        id = UUID.randomUUID().toString();
         this.title = title;
     }
 

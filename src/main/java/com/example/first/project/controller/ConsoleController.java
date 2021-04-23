@@ -74,7 +74,7 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public  void readStudent() {
+    public void readStudent() {
         if (studentService.getStudents().size() > 0) {
             System.out.println("Which one of the following students would you like to receive information about?");
 
@@ -102,7 +102,7 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public  void updateStudent() {
+    public void updateStudent() {
         if (studentService.getStudents().size() > 0) {
             System.out.println("Which one of the following students do you want to update?");
 
@@ -145,7 +145,7 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public  void updateStudentFirstName(Student student) {
+    public void updateStudentFirstName(Student student) {
         System.out.println("What's the student's new first name?");
 
         String newFirstName = scn.nextLine().trim();
@@ -158,7 +158,7 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public  void updateStudentLastName(Student student) {
+    public void updateStudentLastName(Student student) {
         System.out.println("What's the student's new last name?");
 
         String newLastName = scn.nextLine().trim();
@@ -171,18 +171,18 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public  void updateStudentBooks(Student student) {
+    public void updateStudentBooks(Student student) {
         do {
-            System.out.println("1 --> I want to update the title of a book.");
-            System.out.println("2 --> I want to add a book to the student.");
+            System.out.println("1 --> I want to add a book to the student.");
+            System.out.println("2 --> I want to update the title of a book.");
             System.out.println("3 --> I want to remove a book from the student.");
 
             String choice = scn.nextLine().trim();
 
-            if (choice.equals(Action.UPDATESTUDENTBOOKSBOOKTITLE.getCode())) {
-                updateStudentBooksBookTitle(student);
-            } else if (choice.equals(Action.UPDATESTUDENTBOOKSADDBOOK.getCode())) {
+            if (choice.equals(Action.UPDATESTUDENTBOOKSADDBOOK.getCode())) {
                 updateStudentBooksAddBook(student);
+            } else if (choice.equals(Action.UPDATESTUDENTBOOKSBOOKTITLE.getCode())) {
+                updateStudentBooksBookTitle(student);
             } else if (choice.equals(Action.UPDATESTUDENTBOOKSREMOVEBOOK.getCode())) {
                 updateStudentBooksRemoveBook(student);
             } else {
@@ -216,7 +216,7 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public  void updateStudentBooksAddBook(Student student) {
+    public void updateStudentBooksAddBook(Student student) {
         System.out.println("What's the book's title?");
 
         String title = scn.nextLine().trim();
@@ -229,7 +229,7 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public  void updateStudentBooksRemoveBook(Student student) {
+    public void updateStudentBooksRemoveBook(Student student) {
         if (student.getBooks().size() > 0) {
             System.out.println("Which one of the following books do you want to remove?");
 

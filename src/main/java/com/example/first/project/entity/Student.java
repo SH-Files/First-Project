@@ -4,17 +4,31 @@ import java.util.*;
 
 import com.example.first.project.exception.BookNotFoundException;
 
+import javax.persistence.*;
+
+@Entity(name = "Student")
+@Table(name = "student")
 public class Student {
+
+    @Id
     private String id;
+
+    @Column
     private String firstName;
+
+    @Column
     private String lastName;
-    private final Set<Book> books;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "studentId")
+    private final Set<Book> books = new HashSet<>();
+
+    public Student() {}
 
     public Student(String firstName, String lastName) {
-        this.id = UUID.randomUUID().toString();
+        id = UUID.randomUUID().toString();
         this.firstName = firstName;
         this.lastName = lastName;
-        books = new HashSet<>();
     }
 
     public void setId(String id) {

@@ -1,10 +1,12 @@
 package com.example.first.project.service;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.example.first.project.entity.Book;
 import com.example.first.project.entity.Student;
-import com.example.first.project.repository.DataMemoryStorage;
+import com.example.first.project.repository.StudentStorage;
 import com.example.first.project.exception.BookNotFoundException;
 import com.example.first.project.exception.StudentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,54 +15,64 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentService {
 
-    private final DataMemoryStorage dataMemoryStorage;
+    private final StudentStorage studentStorage;
 
     @Autowired
-    public StudentService(DataMemoryStorage dataMemoryStorage) {
-        this.dataMemoryStorage = dataMemoryStorage;
+    public StudentService(StudentStorage studentStorage) {
+        this.studentStorage = studentStorage;
     }
 
     public Student getStudent(String studentKey) {
-        Student student = dataMemoryStorage.getStudent(studentKey);
-        if (student == null) {
-            throw new StudentNotFoundException();
+        for (Map.Entry<String, Student> entry : getStudents().entrySet()) {
+            if (entry.getValue().getId().equals(studentKey)) {
+                return entry.getValue();
+            }
         }
-        return student;
+        throw new StudentNotFoundException();
     }
 
     public HashMap<String, Student> getStudents() {
-        return dataMemoryStorage.getStudents();
+        HashMap<String, Student> students = new HashMap<>();
+
+        for (Student student : studentStorage.findAll()) {
+            students.put(student.getId(), student);
+        }
+        return students;
     }
 
     public void createStudent(String firstName, String lastName) {
         Student student = new Student(firstName, lastName);
-        dataMemoryStorage.addStudent(student);
+        studentStorage.save(student);
     }
 
     public void updateStudentFirstName(String studentKey, String newFirstName) {
         Student student = getStudent(studentKey);
         student.setFirstName(newFirstName);
+        studentStorage.save(student);
     }
 
     public void updateStudentLastName(String studentKey, String newLastName) {
         Student student = getStudent(studentKey);
         student.setLastName(newLastName);
+        studentStorage.save(student);
     }
 
     public void removeStudent(String studentKey) {
         Student student = getStudent(studentKey);
-        dataMemoryStorage.removeStudent(student.getId());
+        studentStorage.delete(student);
     }
 
     public void addBookToStudent(String studentKey, String title) {
         Student student = getStudent(studentKey);
         Book book = new Book(title);
         student.addBook(book);
+        studentStorage.save(student);
     }
 
     public void removeBookFromStudent(String studentKey, String bookKey) {
-    Student student = getStudent(studentKey);
-    student.removeBook(bookKey);
+        Student student = getStudent(studentKey);
+        student.removeBook(bookKey);
+        studentStorage.save(student);
     }
 
     public void updateBookTitle(String studentKeyBookBelongsTo, String bookKey, String newTitle) {
@@ -71,5 +83,6 @@ public class StudentService {
             .findFirst()
             .orElseThrow(BookNotFoundException::new);
         bookFromStudent.setTitle(newTitle);
+        studentStorage.save(student);
     }
 }
