@@ -80,7 +80,7 @@ public class ConsoleController implements CommandLineRunner {
 
             studentService.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
-            String studentKey = scn.nextLine().trim();
+            int studentKey = Integer.parseInt(scn.nextLine().trim());
 
             try {
                 Student student = studentService.getStudent(studentKey);
@@ -108,7 +108,7 @@ public class ConsoleController implements CommandLineRunner {
 
             studentService.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
-            String studentKey = scn.nextLine().trim();
+            int studentKey = Integer.parseInt(scn.nextLine().trim());
 
             try {
                 Student student = studentService.getStudent(studentKey);
@@ -199,7 +199,7 @@ public class ConsoleController implements CommandLineRunner {
 
             student.getBooks().forEach(o -> System.out.println(o.getId() + " --> " + o.getTitle()));
 
-            String bookKey = scn.nextLine().trim();
+            int bookKey = Integer.parseInt(scn.nextLine().trim());
 
             System.out.println("What's the book's new title?");
 
@@ -235,7 +235,7 @@ public class ConsoleController implements CommandLineRunner {
 
             student.getBooks().forEach(o -> System.out.println(o.getId() + " --> " + o.getTitle()));
 
-            String bookKey = scn.nextLine().trim();
+            int bookKey = Integer.parseInt(scn.nextLine().trim());
 
             try {
                 studentService.removeBookFromStudent(student.getId(), bookKey);
@@ -254,7 +254,7 @@ public class ConsoleController implements CommandLineRunner {
 
             studentService.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
-            String studentKey = scn.nextLine().trim();
+            int studentKey = Integer.parseInt(scn.nextLine().trim());
 
             try {
                 studentService.removeStudent(studentKey);

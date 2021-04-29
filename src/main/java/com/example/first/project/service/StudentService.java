@@ -22,17 +22,17 @@ public class StudentService {
         this.studentStorage = studentStorage;
     }
 
-    public Student getStudent(String studentKey) {
-        for (Map.Entry<String, Student> entry : getStudents().entrySet()) {
-            if (entry.getValue().getId().equals(studentKey)) {
+    public Student getStudent(int studentKey) {
+        for (Map.Entry<Integer, Student> entry : getStudents().entrySet()) {
+            if (entry.getValue().getId() == studentKey) {
                 return entry.getValue();
             }
         }
         throw new StudentNotFoundException();
     }
 
-    public HashMap<String, Student> getStudents() {
-        HashMap<String, Student> students = new HashMap<>();
+    public HashMap<Integer, Student> getStudents() {
+        HashMap<Integer, Student> students = new HashMap<>();
 
         for (Student student : studentStorage.findAll()) {
             students.put(student.getId(), student);
@@ -45,41 +45,41 @@ public class StudentService {
         studentStorage.save(student);
     }
 
-    public void updateStudentFirstName(String studentKey, String newFirstName) {
+    public void updateStudentFirstName(int studentKey, String newFirstName) {
         Student student = getStudent(studentKey);
         student.setFirstName(newFirstName);
         studentStorage.save(student);
     }
 
-    public void updateStudentLastName(String studentKey, String newLastName) {
+    public void updateStudentLastName(int studentKey, String newLastName) {
         Student student = getStudent(studentKey);
         student.setLastName(newLastName);
         studentStorage.save(student);
     }
 
-    public void removeStudent(String studentKey) {
+    public void removeStudent(int studentKey) {
         Student student = getStudent(studentKey);
         studentStorage.delete(student);
     }
 
-    public void addBookToStudent(String studentKey, String title) {
+    public void addBookToStudent(int studentKey, String title) {
         Student student = getStudent(studentKey);
         Book book = new Book(title);
         student.addBook(book);
         studentStorage.save(student);
     }
 
-    public void removeBookFromStudent(String studentKey, String bookKey) {
+    public void removeBookFromStudent(int studentKey, int bookKey) {
         Student student = getStudent(studentKey);
         student.removeBook(bookKey);
         studentStorage.save(student);
     }
 
-    public void updateBookTitle(String studentKeyBookBelongsTo, String bookKey, String newTitle) {
+    public void updateBookTitle(int studentKeyBookBelongsTo, int bookKey, String newTitle) {
         Student student = getStudent(studentKeyBookBelongsTo);
         Book bookFromStudent = student.getBooks()
             .stream()
-            .filter(book -> book.getId().equals(bookKey))
+            .filter(book -> book.getId() == bookKey)
             .findFirst()
             .orElseThrow(BookNotFoundException::new);
         bookFromStudent.setTitle(newTitle);

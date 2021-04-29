@@ -1,35 +1,32 @@
 package com.example.first.project.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity(name = "Book")
+@Entity
 @Table(name = "book")
 public class Book {
 
     @Id
-    private String id;
+    @GeneratedValue
+    private int id;
 
-    @Column
+    @Column(name = "title")
     private String title;
 
     public Book() {}
 
     public Book(String title) {
-        id = UUID.randomUUID().toString();
         this.title = title;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public int getId() {
+        return id;
     }
 
-    public String getId() {
-        return id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -45,7 +42,7 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return id.equals(book.id) &&
+        return id == (book.id) &&
                 Objects.equals(title, book.title);
     }
 
