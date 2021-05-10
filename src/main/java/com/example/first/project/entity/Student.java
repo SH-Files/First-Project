@@ -6,11 +6,12 @@ import com.example.first.project.exception.BookNotFoundException;
 
 import javax.persistence.*;
 
-@Entity(name = "Student")
-@Table(name = "student")
+@Entity
+@Table(name = "STUDENT")
 public class Student {
 
     @Id
+    @Column(name = "STUDENT_ID")
     @GeneratedValue
     private int id;
 
@@ -20,9 +21,9 @@ public class Student {
     @Column(name = "lastName")
     private String lastName;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "studentId")
-    private final Set<Book> books = new HashSet<>();
+    @OneToMany
+    @JoinColumn(name = "STUDENT_ID")
+    private Set<Book> books = new HashSet<>();
 
     public Student() {}
 
@@ -60,11 +61,11 @@ public class Student {
     }
 
     public void addBook(Book book) {
-        books.add(book);
+        getBooks().add(book);
     }
 
     public void removeBook(long id) {
-        Book bookFromStudent = books.stream()
+        Book bookFromStudent = getBooks().stream()
                 .filter(book -> book.getId() == id)
                 .findFirst()
                 .orElseThrow(BookNotFoundException::new);

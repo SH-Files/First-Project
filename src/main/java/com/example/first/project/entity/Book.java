@@ -5,14 +5,15 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "book")
+@Table(name = "BOOK")
 public class Book {
 
     @Id
+    @Column(name = "BOOK_ID")
     @GeneratedValue
     private int id;
 
-    @Column(name = "title")
+    @Column(name = "TITLE")
     private String title;
 
     public Book() {}
