@@ -8,10 +8,12 @@ import com.example.first.project.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Scanner;
 
 @Controller
+@Transactional
 public class ConsoleController implements CommandLineRunner {
 
     private final Scanner scn;
@@ -80,9 +82,8 @@ public class ConsoleController implements CommandLineRunner {
 
             studentService.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
-            int studentKey = Integer.parseInt(scn.nextLine().trim());
-
             try {
+                int studentKey = Integer.parseInt(scn.nextLine().trim());
                 Student student = studentService.getStudent(studentKey);
 
                 System.out.println("Chosen student's name: " + student.getLastName() + ", " + student.getFirstName() + "\n");
@@ -94,7 +95,7 @@ public class ConsoleController implements CommandLineRunner {
                     System.out.println("Student has currently no books in possession.");
                 }
                 System.out.println();
-            } catch (StudentNotFoundException e) {
+            } catch (StudentNotFoundException | NumberFormatException e) {
                 System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
@@ -108,12 +109,12 @@ public class ConsoleController implements CommandLineRunner {
 
             studentService.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
-            int studentKey = Integer.parseInt(scn.nextLine().trim());
-
             try {
-                Student student = studentService.getStudent(studentKey);
+                int studentKey = Integer.parseInt(scn.nextLine().trim());
 
                 do {
+                    Student student = studentService.getStudent(studentKey);
+
                     System.out.println("Chosen student's name: " + student.getLastName() + ", " + student.getFirstName() + "\n");
 
                     System.out.println("Which one of the following actions would you like to choose?\n");
@@ -125,19 +126,17 @@ public class ConsoleController implements CommandLineRunner {
                     String choice = scn.nextLine().trim();
 
                     if (choice.equals(Action.UPDATESTUDENTFIRSTNAME.getCode())) {
-                        updateStudentFirstName(student);
+                        updateStudentFirstName(studentKey);
                     } else if (choice.equals(Action.UPDATESTUDENTLASTNAME.getCode())) {
-                        updateStudentLastName(student);
+                        updateStudentLastName(studentKey);
                     } else if (choice.equals(Action.UPDATESTUDENTBOOKS.getCode())) {
-                        updateStudentBooks(student);
+                        updateStudentBooks(studentKey);
                     } else {
                         System.out.println("Chosen action doesn't exist.\n");
                     }
-
                     System.out.println("Do you want to keep updating the student? (Y / N)");
-
                 } while (scn.nextLine().trim().equalsIgnoreCase("Y"));
-            } catch (StudentNotFoundException e) {
+            } catch (StudentNotFoundException | NumberFormatException e) {
                 System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
@@ -145,7 +144,9 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public void updateStudentFirstName(Student student) {
+    public void updateStudentFirstName(int studentKey) {
+        Student student = studentService.getStudent(studentKey);
+
         System.out.println("What's the student's new first name?");
 
         String newFirstName = scn.nextLine().trim();
@@ -158,7 +159,9 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public void updateStudentLastName(Student student) {
+    public void updateStudentLastName(int studentKey) {
+        Student student = studentService.getStudent(studentKey);
+
         System.out.println("What's the student's new last name?");
 
         String newLastName = scn.nextLine().trim();
@@ -171,8 +174,10 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public void updateStudentBooks(Student student) {
+    public void updateStudentBooks(int studentKey) {
         do {
+            Student student = studentService.getStudent(studentKey);
+
             System.out.println("1 --> I want to add a book to the student.");
             System.out.println("2 --> I want to update the title of a book.");
             System.out.println("3 --> I want to remove a book from the student.");
@@ -180,11 +185,11 @@ public class ConsoleController implements CommandLineRunner {
             String choice = scn.nextLine().trim();
 
             if (choice.equals(Action.UPDATESTUDENTBOOKSADDBOOK.getCode())) {
-                updateStudentBooksAddBook(student);
+                updateStudentBooksAddBook(student.getId());
             } else if (choice.equals(Action.UPDATESTUDENTBOOKSBOOKTITLE.getCode())) {
-                updateStudentBooksBookTitle(student);
+                updateStudentBooksBookTitle(student.getId());
             } else if (choice.equals(Action.UPDATESTUDENTBOOKSREMOVEBOOK.getCode())) {
-                updateStudentBooksRemoveBook(student);
+                updateStudentBooksRemoveBook(student.getId());
             } else {
                 System.out.println("Chosen action doesn't exist.\n");
             }
@@ -193,22 +198,24 @@ public class ConsoleController implements CommandLineRunner {
         } while (scn.nextLine().trim().equalsIgnoreCase("Y"));
     }
 
-    public void updateStudentBooksBookTitle(Student student) {
+    public void updateStudentBooksBookTitle(int studentKey) {
+        Student student = studentService.getStudent(studentKey);
+
         if (student.getBooks().size() > 0) {
             System.out.println("Which of the following books do you want to update the title of?");
 
             student.getBooks().forEach(o -> System.out.println(o.getId() + " --> " + o.getTitle()));
 
-            int bookKey = Integer.parseInt(scn.nextLine().trim());
-
-            System.out.println("What's the book's new title?");
-
-            String newTitle = scn.nextLine().trim();
-
             try {
+                int bookKey = Integer.parseInt(scn.nextLine().trim());
+
+                System.out.println("What's the book's new title?");
+
+                String newTitle = scn.nextLine().trim();
+
                 studentService.updateBookTitle(student.getId(), bookKey, newTitle);
                 System.out.println("Book was successfully updated.\n");
-            } catch (BookNotFoundException e) {
+            } catch (BookNotFoundException | NumberFormatException e) {
                 System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
@@ -216,7 +223,9 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public void updateStudentBooksAddBook(Student student) {
+    public void updateStudentBooksAddBook(int studentKey) {
+        Student student = studentService.getStudent(studentKey);
+
         System.out.println("What's the book's title?");
 
         String title = scn.nextLine().trim();
@@ -229,18 +238,20 @@ public class ConsoleController implements CommandLineRunner {
         }
     }
 
-    public void updateStudentBooksRemoveBook(Student student) {
+    public void updateStudentBooksRemoveBook(int studentKey) {
+        Student student = studentService.getStudent(studentKey);
+
         if (student.getBooks().size() > 0) {
             System.out.println("Which one of the following books do you want to remove?");
 
             student.getBooks().forEach(o -> System.out.println(o.getId() + " --> " + o.getTitle()));
 
-            int bookKey = Integer.parseInt(scn.nextLine().trim());
-
             try {
+                int bookKey = Integer.parseInt(scn.nextLine().trim());
+
                 studentService.removeBookFromStudent(student.getId(), bookKey);
                 System.out.println("Book was successfully removed.\n");
-            } catch (BookNotFoundException e) {
+            } catch (BookNotFoundException | NumberFormatException e) {
                 System.out.println("Chosen action doesn't exist.\n");
             }
         } else {
@@ -254,12 +265,12 @@ public class ConsoleController implements CommandLineRunner {
 
             studentService.getStudents().forEach((k, v) -> System.out.println(k + " --> " + v.getFirstName() + " " + v.getLastName()));
 
-            int studentKey = Integer.parseInt(scn.nextLine().trim());
-
             try {
+                int studentKey = Integer.parseInt(scn.nextLine().trim());
+
                 studentService.removeStudent(studentKey);
                 System.out.println("Student was successfully removed.\n");
-            } catch (StudentNotFoundException e) {
+            } catch (StudentNotFoundException | NumberFormatException e) {
                 System.out.println("Chosen action doesn't exist.\n");
             }
         } else {

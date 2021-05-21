@@ -15,13 +15,13 @@ public class Student {
     @GeneratedValue
     private int id;
 
-    @Column(name = "firstName")
+    @Column(name = "FIRSTNAME")
     private String firstName;
 
     @Column(name = "lastName")
     private String lastName;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "STUDENT_ID")
     private Set<Book> books = new HashSet<>();
 
@@ -29,6 +29,7 @@ public class Student {
 
     public Student(String firstName, String lastName) {
         this.firstName = firstName;
+
         this.lastName = lastName;
     }
 
@@ -56,16 +57,20 @@ public class Student {
         return lastName;
     }
 
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+
     public Set<Book> getBooks() {
         return books;
     }
 
     public void addBook(Book book) {
-        getBooks().add(book);
+        books.add(book);
     }
 
     public void removeBook(long id) {
-        Book bookFromStudent = getBooks().stream()
+        Book bookFromStudent = books.stream()
                 .filter(book -> book.getId() == id)
                 .findFirst()
                 .orElseThrow(BookNotFoundException::new);
