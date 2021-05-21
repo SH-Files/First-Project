@@ -71,7 +71,6 @@ public class StudentService {
         studentStorage.delete(student);
     }
 
-    @Transactional
     public void addBookToStudent(int studentKey, String title) {
         Student student = getStudent(studentKey);
         Book book = new Book(title);
