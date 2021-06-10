@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 @Controller
 @Transactional
-public class ConsoleController implements CommandLineRunner {
+public class ConsoleController {
 
     private final Scanner scn;
     private final StudentService studentService;
@@ -25,7 +25,6 @@ public class ConsoleController implements CommandLineRunner {
         this.studentService = studentService;
     }
 
-    @Override
     public void run(String... args) throws Exception {
         while (true) {
             System.out.println("Which one of the following actions do you choose?\n");

@@ -1,25 +1,15 @@
 package com.example.first.project.service;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
-
 import com.example.first.project.entity.Book;
 import com.example.first.project.entity.Student;
 import com.example.first.project.repository.StudentStorage;
 import com.example.first.project.exception.BookNotFoundException;
 import com.example.first.project.exception.StudentNotFoundException;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-
-import javax.transaction.Transactional;
 
 @Service
 public class StudentService {
