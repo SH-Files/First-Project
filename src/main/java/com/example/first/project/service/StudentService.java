@@ -13,7 +13,6 @@ import com.example.first.project.exception.BookNotFoundException;
 import com.example.first.project.exception.StudentNotFoundException;
 
 @Service
-@Transactional
 public class StudentService {
 
     private final StudentStorage studentStorage;
@@ -23,6 +22,7 @@ public class StudentService {
         this.studentStorage = studentStorage;
     }
 
+    @Transactional(readOnly = true)
     public Student getStudent(int studentKey) {
         for (Map.Entry<Integer, Student> entry : getStudents().entrySet()) {
             if (entry.getValue().getId() == studentKey) {
@@ -34,6 +34,7 @@ public class StudentService {
         throw new StudentNotFoundException();
     }
 
+    @Transactional(readOnly = true)
     public HashMap<Integer, Student> getStudents() {
         HashMap<Integer, Student> students = new HashMap<>();
 
@@ -43,28 +44,33 @@ public class StudentService {
         return students;
     }
 
+    @Transactional
     public void createStudent(String firstName, String lastName) {
         Student student = new Student(firstName, lastName);
         studentStorage.save(student);
     }
 
+    @Transactional
     public void updateStudentFirstName(int studentKey, String newFirstName) {
         Student student = getStudent(studentKey);
         student.setFirstName(newFirstName);
         studentStorage.save(student);
     }
 
+    @Transactional
     public void updateStudentLastName(int studentKey, String newLastName) {
         Student student = getStudent(studentKey);
         student.setLastName(newLastName);
         studentStorage.save(student);
     }
 
+    @Transactional
     public void removeStudent(int studentKey) {
         Student student = getStudent(studentKey);
         studentStorage.delete(student);
     }
 
+    @Transactional
     public void addBookToStudent(int studentKey, String title) {
         Student student = getStudent(studentKey);
         Book book = new Book(title);
@@ -72,12 +78,14 @@ public class StudentService {
         studentStorage.save(student);
     }
 
+    @Transactional
     public void removeBookFromStudent(int studentKey, int bookKey) {
         Student student = getStudent(studentKey);
         student.removeBook(bookKey);
         studentStorage.save(student);
     }
 
+    @Transactional
     public void updateBookTitle(int studentKeyBookBelongsTo, int bookKey, String newTitle) {
         Student student = getStudent(studentKeyBookBelongsTo);
         Book bookFromStudent = student.getBooks()
