@@ -1,30 +1,34 @@
 package com.example.first.project.service;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.HashMap;
+import org.hibernate.Hibernate;
 import com.example.first.project.entity.Book;
+import org.springframework.stereotype.Service;
 import com.example.first.project.entity.Student;
 import com.example.first.project.repository.StudentStorage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import com.example.first.project.exception.BookNotFoundException;
 import com.example.first.project.exception.StudentNotFoundException;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class StudentService {
 
     private final StudentStorage studentStorage;
 
     @Autowired
-    public StudentService(StudentStorage studentStorage, SessionFactory sessionFactory) {
+    public StudentService(StudentStorage studentStorage) {
         this.studentStorage = studentStorage;
     }
 
     public Student getStudent(int studentKey) {
         for (Map.Entry<Integer, Student> entry : getStudents().entrySet()) {
             if (entry.getValue().getId() == studentKey) {
-                return entry.getValue();
+                Student student = entry.getValue();
+                Hibernate.initialize(student.getBooks());
+                return student;
             }
         }
         throw new StudentNotFoundException();

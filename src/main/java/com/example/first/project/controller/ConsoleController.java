@@ -1,5 +1,6 @@
 package com.example.first.project.controller;
 
+import java.util.Scanner;
 import com.example.first.project.entity.Student;
 import com.example.first.project.enumeration.Action;
 import com.example.first.project.exception.BookNotFoundException;
@@ -8,13 +9,10 @@ import com.example.first.project.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Scanner;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 @Controller
-@Transactional
-public class ConsoleController {
+public class ConsoleController implements CommandLineRunner {
 
     private final Scanner scn;
     private final StudentService studentService;
@@ -25,7 +23,8 @@ public class ConsoleController {
         this.studentService = studentService;
     }
 
-    public void run(String... args) throws Exception {
+    @Override
+    public void run(String... args) {
         while (true) {
             System.out.println("Which one of the following actions do you choose?\n");
 
@@ -157,7 +156,7 @@ public class ConsoleController {
             System.out.println("Student couldn't be updated. First name can't be empty.\n");
         }
     }
-
+    
     public void updateStudentLastName(int studentKey) {
         Student student = studentService.getStudent(studentKey);
 
