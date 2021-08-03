@@ -1,6 +1,5 @@
 package com.example.first.project.controller;
 
-import java.util.Scanner;
 import com.example.first.project.entity.Student;
 import com.example.first.project.exception.BookNotFoundException;
 import com.example.first.project.exception.StudentNotFoundException;
@@ -24,12 +23,10 @@ public class ConsoleController {
 
      */
 
-    private final Scanner scn;
     private final StudentService studentService;
 
     @Autowired
     public ConsoleController(StudentService studentService) {
-        scn = new Scanner(System.in);
         this.studentService = studentService;
     }
 
