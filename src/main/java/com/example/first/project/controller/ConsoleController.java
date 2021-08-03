@@ -121,6 +121,7 @@ public class ConsoleController {
             studentService.getStudent(Integer.parseInt(studentKey));
             try {
                 studentService.updateBookTitle(Integer.parseInt(studentKey), Integer.parseInt(bookKey), newTitle);
+                throw new ResponseStatusException(HttpStatus.OK, "Book's title was updated successfully.");
             } catch (BookNotFoundException | NumberFormatException e) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found.");
             }
@@ -133,7 +134,7 @@ public class ConsoleController {
     public void removeStudent(@RequestParam(value = "studentKey") String studentKey) {
         try {
             studentService.removeStudent(Integer.parseInt(studentKey));
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student was successfully removed.");
+            throw new ResponseStatusException(HttpStatus.OK, "Student was successfully removed.");
         } catch (StudentNotFoundException | NumberFormatException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found.");
         }
