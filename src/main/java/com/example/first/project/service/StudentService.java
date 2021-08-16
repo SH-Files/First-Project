@@ -1,7 +1,10 @@
 package com.example.first.project.service;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
+
 import org.hibernate.Hibernate;
 import com.example.first.project.entity.Book;
 import org.springframework.stereotype.Service;
@@ -26,9 +29,7 @@ public class StudentService {
     public Student getStudent(int studentKey) {
         for (Map.Entry<Integer, Student> entry : getStudents().entrySet()) {
             if (entry.getValue().getId() == studentKey) {
-                Student student = entry.getValue();
-                Hibernate.initialize(student.getBooks());
-                return student;
+                return entry.getValue();
             }
         }
         throw new StudentNotFoundException();
@@ -39,14 +40,14 @@ public class StudentService {
         HashMap<Integer, Student> students = new HashMap<>();
 
         for (Student student : studentStorage.findAll()) {
+            Hibernate.initialize(student.getBooks());
             students.put(student.getId(), student);
         }
         return students;
     }
 
     @Transactional
-    public void createStudent(String firstName, String lastName) {
-        Student student = new Student(firstName, lastName);
+    public void saveStudent(Student student) {
         studentStorage.save(student);
     }
 
@@ -65,16 +66,22 @@ public class StudentService {
     }
 
     @Transactional
-    public void removeStudent(int studentKey) {
-        Student student = getStudent(studentKey);
-        studentStorage.delete(student);
-    }
-
-    @Transactional
     public void addBookToStudent(int studentKey, String title) {
         Student student = getStudent(studentKey);
         Book book = new Book(title);
         student.addBook(book);
+        studentStorage.save(student);
+    }
+
+    @Transactional
+    public void updateBookTitle(int studentKeyBookBelongsTo, int bookKey, String newTitle) {
+        Student student = getStudent(studentKeyBookBelongsTo);
+        Book bookFromStudent = student.getBooks()
+                .stream()
+                .filter(book -> book.getId() == bookKey)
+                .findFirst()
+                .orElseThrow(BookNotFoundException::new);
+        bookFromStudent.setTitle(newTitle);
         studentStorage.save(student);
     }
 
@@ -86,14 +93,8 @@ public class StudentService {
     }
 
     @Transactional
-    public void updateBookTitle(int studentKeyBookBelongsTo, int bookKey, String newTitle) {
-        Student student = getStudent(studentKeyBookBelongsTo);
-        Book bookFromStudent = student.getBooks()
-            .stream()
-            .filter(book -> book.getId() == bookKey)
-            .findFirst()
-            .orElseThrow(BookNotFoundException::new);
-        bookFromStudent.setTitle(newTitle);
-        studentStorage.save(student);
+    public void removeStudent(int studentKey) {
+        Student student = getStudent(studentKey);
+        studentStorage.delete(student);
     }
 }

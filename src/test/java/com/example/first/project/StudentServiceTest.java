@@ -26,13 +26,6 @@ public class StudentServiceTest {
     }
 
     @Test
-    void createStudentTest() {
-        Student student = new Student("SFN", "SLN");
-        studentService.createStudent(student.getFirstName(), student.getLastName());
-        Mockito.verify(studentStorage).save(student);
-    }
-
-    @Test
     void getStudentsTest() {
         studentService.getStudents();
         Mockito.verify(studentStorage).findAll();
@@ -70,33 +63,5 @@ public class StudentServiceTest {
         Mockito.when(studentStorage.findAll()).thenReturn(Collections.singletonList(student));
         studentService.removeStudent(student.getId());
         Mockito.verify(studentStorage).delete(student);
-    }
-
-    @Test
-    void addBookToStudentTest() {
-        Student student = new Student("SFN", "SLN");
-        Mockito.when(studentStorage.findAll()).thenReturn(Collections.singletonList(student));
-        studentService.addBookToStudent(student.getId(), "Sample book!");
-        Mockito.verify(studentStorage).save(student);
-    }
-
-    @Test
-    void removeBookToStudentTest() {
-        Book book = new Book("Sample book!");
-        Student student = new Student("SFN", "SLN");
-        student.addBook(book);
-        Mockito.when(studentStorage.findAll()).thenReturn(Collections.singletonList(student));
-        studentService.removeBookFromStudent(student.getId(), book.getId());
-        Mockito.verify(studentStorage).save(student);
-    }
-
-    @Test
-    void updateBookTitleTest() {
-        Book book = new Book("Sample book!");
-        Student student = new Student("SFN", "SLN");
-        student.addBook(book);
-        Mockito.when(studentStorage.findAll()).thenReturn(Collections.singletonList(student));
-        studentService.updateBookTitle(student.getId(), book.getId(), "Another book!");
-        Mockito.verify(studentStorage).save(student);
     }
 }
