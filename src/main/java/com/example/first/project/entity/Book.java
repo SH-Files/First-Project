@@ -1,8 +1,8 @@
 package com.example.first.project.entity;
 
-import javax.persistence.*;
-import java.util.Objects;
 import java.util.UUID;
+import java.util.Objects;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "BOOK")

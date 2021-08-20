@@ -1,17 +1,14 @@
 package com.example.first.project.controller;
 
-import com.example.first.project.entity.Book;
+import java.util.HashSet;
+import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
 import com.example.first.project.entity.Student;
-import com.example.first.project.exception.BookNotFoundException;
-import com.example.first.project.exception.StudentNotFoundException;
+import org.springframework.web.bind.annotation.*;
 import com.example.first.project.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.HashSet;
+import com.example.first.project.exception.StudentNotFoundException;
 
 @RestController
 public class MyRestController {
@@ -37,11 +34,7 @@ public class MyRestController {
 
     @GetMapping("/students/{studentKey}")
     public Student getStudent(@PathVariable("studentKey") String studentKey) {
-        try {
-            return studentService.getStudent(Integer.parseInt(studentKey));
-        } catch (StudentNotFoundException | NumberFormatException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found");
-        }
+        return studentService.getStudent(Integer.parseInt(studentKey));
     }
 
     @GetMapping("/students")
@@ -59,63 +52,27 @@ public class MyRestController {
 
     @PutMapping("/students/{studentKey}")
     public String updateStudent(@PathVariable("studentKey") String studentKey, @RequestBody Student changedStudent) {
-        try {
-            Student student = studentService.getStudent(Integer.parseInt(studentKey));
+        Student student = studentService.getStudent(Integer.parseInt(studentKey));
+        changedStudent.setBooks(changedStudent.getBooks().stream().filter(book -> book.getTitle() != null && !book.getTitle().trim().isEmpty()).collect(Collectors.toSet()));
 
-            if (changedStudent.getFirstName() != null && !changedStudent.getFirstName().isEmpty()) {
-                studentService.updateStudentFirstName(student.getId(), changedStudent.getFirstName());
-            }
-            if (changedStudent.getFirstName() != null && !changedStudent.getFirstName().isEmpty()) {
-                studentService.updateStudentFirstName(student.getId(), changedStudent.getFirstName());
-            }
-            changedStudent.getBooks().forEach(newBook -> {
-                studentService.addBookToStudent(student.getId(), newBook.getTitle());
-            });
-            return "Student was successfully updated";
-        } catch (StudentNotFoundException | NumberFormatException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found");
+        if (changedStudent.getFirstName() != null && !changedStudent.getFirstName().isEmpty()) {
+            studentService.updateStudentFirstName(student.getId(), changedStudent.getFirstName());
         }
-    }
-
-    @PutMapping("/students/{studentKey}/{bookKey}")
-    public String updateBook(@PathVariable("studentKey") String studentKey, @PathVariable("bookKey") String bookKey, @RequestBody Book changedBook) {
-        try {
-            Student student = studentService.getStudent(Integer.parseInt(studentKey));
-
-            try {
-                studentService.updateBookTitle(student.getId(), Integer.parseInt(bookKey), changedBook.getTitle());
-                return "Book was successfully updated";
-            } catch (BookNotFoundException | NumberFormatException e) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found");
-            }
-        } catch (StudentNotFoundException | NumberFormatException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found");
+        if (changedStudent.getFirstName() != null && !changedStudent.getFirstName().isEmpty()) {
+            studentService.updateStudentFirstName(student.getId(), changedStudent.getFirstName());
         }
-    }
-
-    @DeleteMapping("/students/{studentKey}/{bookKey}")
-    public String deleteBook(@PathVariable("studentKey") String studentKey, @PathVariable("bookKey") String bookKey) {
-        try {
-            Student student = studentService.getStudent(Integer.parseInt(studentKey));
-
-            try {
-                studentService.removeBookFromStudent(student.getId(), Integer.parseInt(bookKey));
-                return "Book was successfully deleted";
-            } catch (BookNotFoundException | NumberFormatException e) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found");
-            }
-        } catch (StudentNotFoundException | NumberFormatException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found");
-        }
+        studentService.updateStudentBooks(student.getId(), changedStudent.getBooks());
+        return "Student was updated successfully";
     }
 
     @DeleteMapping("/students/{studentKey}")
     public String deleteStudent(@PathVariable("studentKey") String studentKey) {
-        try {
-            studentService.removeStudent(Integer.parseInt(studentKey));
-            return "Student was successfully deleted";
-        } catch (StudentNotFoundException | NumberFormatException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found");
-        }
+        studentService.removeStudent(Integer.parseInt(studentKey));
+        return "Student was deleted successfully";
+    }
+
+    @ExceptionHandler(value = {StudentNotFoundException.class, NumberFormatException.class})
+    public String studentNotFoundExceptionHandler() {
+        return "No student with the given id was found";
     }
 }

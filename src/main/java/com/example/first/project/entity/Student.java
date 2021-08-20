@@ -1,9 +1,6 @@
 package com.example.first.project.entity;
 
 import java.util.*;
-
-import com.example.first.project.exception.BookNotFoundException;
-
 import javax.persistence.*;
 
 @Entity
@@ -66,14 +63,6 @@ public class Student {
 
     public void addBook(Book book) {
         books.add(book);
-    }
-
-    public void removeBook(long id) {
-        Book bookFromStudent = books.stream()
-                .filter(book -> book.getId() == id)
-                .findFirst()
-                .orElseThrow(BookNotFoundException::new);
-        books.remove(bookFromStudent);
     }
 
     @Override
